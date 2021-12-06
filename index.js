@@ -268,7 +268,7 @@ app.post("/verify_lecturer", async(req, res) => {
 
     } catch (error) {
         console.log(error);
-        res.render("index.ejs", { isValid: false, error: 'Not a lecturer' });
+        res.render("index.ejs", { error: 'Not a lecturer' });
     }
 });
 
