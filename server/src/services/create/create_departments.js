@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const auth = require("../auth/get_auth");
-const global_data = require("../auth/global_data");
+const auth = require("../../auth/get_auth");
+const global_data = require("../../auth/global_data");
 
 function create_folder(drive, folderId, foldername)
 {

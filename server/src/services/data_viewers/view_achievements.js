@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const global_data = require("../auth/global_data");
-const get_department_ids = require("../functions/get_department_ids");
+const global_data = require("../../auth/global_data");
+const get_department_ids = require("../../helpers/get_department_ids");
 
 
 function get_batches_having_academic_year(batches, start_academic_year, end_academic_year)

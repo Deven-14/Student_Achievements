@@ -24,7 +24,7 @@ function get_row_data(sheets, spreadsheetId, row_no)
 }
 
 
-function get_user(auth, spreadsheetId, email)
+function get_registered_user(auth, spreadsheetId, email)
 {
     return new Promise((resolve, reject) =>{
 
@@ -65,4 +65,4 @@ function get_user(auth, spreadsheetId, email)
     });
 }
 
-module.exports = get_user;
+module.exports = get_registered_user;
