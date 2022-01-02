@@ -1,8 +1,8 @@
 const { google } = require('googleapis');
-const auth = require("../auth/get_auth");
-const get_department_ids = require('../functions/get_department_ids');
-const global_data = require("../auth/global_data");
-const isBatchPresent = require("../functions/isBatchPresent");
+const auth = require("../../auth/get_auth");
+const get_department_ids = require('../../helpers/get_department_ids');
+const global_data = require("../../auth/global_data");
+const isBatchPresent = require("../../helpers/isBatchPresent");
 
 
 function create_spread_sheet(drive, folderId, batch) {

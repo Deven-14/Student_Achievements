@@ -1,24 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const auth = require('./auth/get_auth');
-const global_data = require('./auth/global_data');
-const add_achievement = require('./data_collectors/add_achievement');
-const get_user_data = require('./data_collectors/get_user_data');
-const validate_ph_number = require('./functions/validate_ph_number');
-const get_achievements = require('./data_collectors/get_achievements');
-const add_user = require('./data_collectors/add_user');
-const get_user = require('./data_collectors/get_user');
-const get_spreadsheetId = require("./functions/get_spreadsheet_id");
-const isBatchPresent = require("./functions/isBatchPresent");
-const get_batches = require("./functions/get_batches");
-const view_achievements = require('./data_viewers/view_achievements');
-const write_to_excel = require('./data_viewers/write_to_excel');
-const create_batch = require('./create/create_batch');
-const is_lecturer = require('./functions/is_lecturer');
+const auth = require('./src/auth/get_auth');
+const global_data = require('./src/auth/global_data');
+const add_achievement = require('./src/services/data_collectors/add_achievement');
+const validate_ph_number = require('./src/helpers/validate_ph_number');
+const get_achievements = require('./src/services/data_collectors/get_achievements');
+const add_user = require('./src/services/data_collectors/add_user');
+const get_user = require('./src/services/data_collectors/get_registered_user');
+const get_spreadsheetId = require("./src/helpers/get_spreadsheet_id");
+const isBatchPresent = require("./src/helpers/isBatchPresent");
+const get_batches = require("./src/helpers/get_batches");
+const view_achievements = require('./src/services/data_viewers/view_achievements');
+const write_to_excel = require('./src/services/data_viewers/write_to_excel');
+const create_batch = require('./src/services/create/create_batch');
+const is_lecturer = require('./src/helpers/is_lecturer');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
-const add_file_to_temp = require('./functions/add_file_to_temp');
-const upload_certificate = require('./functions/upload_certificate');
+const add_file_to_temp = require('./src/helpers/add_file_to_temp');
+const upload_certificate = require('./src/helpers/upload_certificate');
 
 // require('dotenv').config();
 
@@ -29,8 +28,8 @@ app.locals.dotenv = require('dotenv');
 app.locals.dotenv.config();
 
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.set("view engine", "ejs");
 
@@ -141,39 +140,41 @@ app.post("/register", async (req, res) => {
     }
 });
 
+const studentRouter = require('./src/routes/student_router');
+app.use("/student", studentRouter);
 
-app.post("/login", async (req, res) => {
-    try {
+// app.post("/login", async (req, res) => {
+//     try {
 
-        var userData = new UserDataObject();
+//         var userData = new UserDataObject();
 
-        userData.name = req.body.name;
-        userData.email = req.body.email;
-        userData.image = req.body.image;
-        userData.usn = req.body.usn;
+//         userData.name = req.body.name;
+//         userData.email = req.body.email;
+//         userData.image = req.body.image;
+//         userData.usn = req.body.usn;
 
-        var data = await get_user_data(userData.usn);
+//         var data = await get_user_data(userData.usn);
 
-        userData.department = data.department;
-        userData.batch = data.batch;
-        userData.presentYear = data.presentYear;
+//         userData.department = data.department;
+//         userData.batch = data.batch;
+//         userData.presentYear = data.presentYear;
 
-        userData.spreadsheetId = await get_spreadsheetId(auth, userData.department, userData.batch);
+//         userData.spreadsheetId = await get_spreadsheetId(auth, userData.department, userData.batch);
 
-        var user = await get_user(auth, userData.spreadsheetId, userData.email);
-        if (!user)
-            throw new Error("User Not Registered");
+//         var user = await get_user(auth, userData.spreadsheetId, userData.email);
+//         if (!user)
+//             throw new Error("User Not Registered");
 
-        if (user.usn.localeCompare(userData.usn) != 0)
-            throw new Error("Entered Wrong USN");
-        userData.phone = user.phone;
+//         if (user.usn.localeCompare(userData.usn) != 0)
+//             throw new Error("Entered Wrong USN");
+//         userData.phone = user.phone;
 
-        res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
-    } catch (error) {
-        console.log(error);
-        res.render("index.ejs", { isValid: false, error: error })
-    }
-});
+//         res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
+//     } catch (error) {
+//         console.log(error);
+//         res.render("index.ejs", { isValid: false, error: error })
+//     }
+// });
 
 
 app.post("/addAchievement", async (req, res) => {

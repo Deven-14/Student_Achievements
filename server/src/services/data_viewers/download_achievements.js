@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const auth = require("../auth/get_auth");
-const global_data = require("../auth/global_data.json");
+const auth = require("../../auth/get_auth");
+const global_data = require("../../auth/global_data.json");
 const fs = require('fs');
 
 function create_query_spreadsheet(drive, folderId, email)
