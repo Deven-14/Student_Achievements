@@ -92,53 +92,53 @@ class UserDataObject {
 }
 
 
-app.post("/getUserDetails", (req, res) => {
+// app.post("/getUserDetails", (req, res) => {
 
-    var userData = new UserDataObject();
+//     var userData = new UserDataObject();
 
-    userData.name = req.body.name;
-    userData.email = req.body.email;
-    userData.image = req.body.image;
-    res.render("getUserDetails.ejs", { userData: userData });
-});
+//     userData.name = req.body.name;
+//     userData.email = req.body.email;
+//     userData.image = req.body.image;
+//     res.render("getUserDetails.ejs", { userData: userData });
+// });
 
 
-app.post("/register", async (req, res) => {
-    try {
+// app.post("/register", async (req, res) => {
+//     try {
 
-        var userData = JSON.parse(req.body.userData);
-        userData.usn = req.body.usn;
-        userData.phone = req.body.phone_no;
+//         var userData = JSON.parse(req.body.userData);
+//         userData.usn = req.body.usn;
+//         userData.phone = req.body.phone_no;
 
-        var data = await get_user_data(req.body.usn);
-        userData.department = data.department;
-        userData.batch = data.batch;
-        userData.presentYear = data.presentYear;
+//         var data = await get_user_data(req.body.usn);
+//         userData.department = data.department;
+//         userData.batch = data.batch;
+//         userData.presentYear = data.presentYear;
 
-        await validate_ph_number(userData.phone);
+//         await validate_ph_number(userData.phone);
 
-        var departments_set = new Set(app.locals.departments)
-        if (!departments_set.has(userData.department))
-            throw new Error("Invalid department");
+//         var departments_set = new Set(app.locals.departments)
+//         if (!departments_set.has(userData.department))
+//             throw new Error("Invalid department");
 
-        var isPresent = await isBatchPresent(auth, global_data.index_table_id, userData.batch);
-        if (isPresent == false)
-            throw new Error("Invalid batch");
+//         var isPresent = await isBatchPresent(auth, global_data.index_table_id, userData.batch);
+//         if (isPresent == false)
+//             throw new Error("Invalid batch");
 
-        userData.spreadsheetId = await get_spreadsheetId(auth, userData.department, userData.batch);
+//         userData.spreadsheetId = await get_spreadsheetId(auth, userData.department, userData.batch);
 
-        var user = await get_user(auth, userData.spreadsheetId, userData.email);
-        if (user)
-            throw new Error("User Already Registered");
+//         var user = await get_user(auth, userData.spreadsheetId, userData.email);
+//         if (user)
+//             throw new Error("User Already Registered");
 
-        await add_user(auth, userData);
+//         await add_user(auth, userData);
 
-        res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
-    } catch (error) {
-        console.log(error);
-        res.render("index.ejs", { isValid: false, error: error })
-    }
-});
+//         res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
+//     } catch (error) {
+//         console.log(error);
+//         res.render("index.ejs", { isValid: false, error: error })
+//     }
+// });
 
 const studentRouter = require('./src/routes/student_router');
 app.use("/student", studentRouter);
@@ -177,133 +177,133 @@ app.use("/student", studentRouter);
 // });
 
 
-app.post("/addAchievement", async (req, res) => {
-    try {
+// app.post("/addAchievement", async (req, res) => {
+//     try {
 
-        var userData = JSON.parse(req.body.userData);
-        if (!userData.name || !userData.image || !userData.email || !userData.usn ||
-            !userData.phone || !userData.department || !userData.batch || !userData.presentYear)
-            throw new Error("Login Error");
+//         var userData = JSON.parse(req.body.userData);
+//         if (!userData.name || !userData.image || !userData.email || !userData.usn ||
+//             !userData.phone || !userData.department || !userData.batch || !userData.presentYear)
+//             throw new Error("Login Error");
 
-        var is_achievement_updated = null;
-        if (req.body.is_achievement_updated == "true")
-            is_achievement_updated = true;
-        else if (req.body.is_achievement_updated == "false")
-            is_achievement_updated = false;
+//         var is_achievement_updated = null;
+//         if (req.body.is_achievement_updated == "true")
+//             is_achievement_updated = true;
+//         else if (req.body.is_achievement_updated == "false")
+//             is_achievement_updated = false;
 
-        res.render("addAchievement.ejs", { is_achievement_updated: is_achievement_updated, userData: userData });
-    } catch (error) {
-        console.log(error);
-        res.render("index.ejs", { isValid: false, error: error });
-    }
-});
-
-
-app.use(fileUpload());
-app.post("/updating_achievement", async(req, res) => {
-
-    try {
-
-        var userData = JSON.parse(req.body.userData);
-        userData.nameOfEvent = req.body.nameOfEvent;
-        userData.detailsOfEvent = req.body.detailsOfEvent;
-        userData.award = req.body.award;
-        userData.level = req.body.level;
-        userData.yearOfAchievement = parseInt(req.body.year);
-
-        userData.certificate = "None";
-        if(req.files && req.files.certificate) {
-            var file = req.files.certificate;
-            var filename = `${Date.now()}.pdf`;
-            var filepath = await add_file_to_temp(file, filename);
-            userData.certificate = await upload_certificate(auth, filepath, userData.email);
-            fs.unlink(filepath, (err) => {
-                // console.log("file deleted");
-            });
-        } else {
-            // console.log("no certificate");
-        }
-
-        for (let field in userData)
-            if (field != 'year1' && field != 'year2' && field != 'year3' && field != 'year4' && !userData[field])
-                throw new Error("Invalid");
-
-        await add_achievement(auth, userData);
-        userData.certificate = "None"; // so that the same certificate doesn't get attached for the next achievement for which they didn't add certificate
-
-        res.render("verify.ejs", { is_achievement_updated: true, userData: userData });
-    } catch (error) {
-        console.log(error);
-        res.render("verify.ejs", { is_achievement_updated: false, userData: userData });
-    }
-});
+//         res.render("addAchievement.ejs", { is_achievement_updated: is_achievement_updated, userData: userData });
+//     } catch (error) {
+//         console.log(error);
+//         res.render("index.ejs", { isValid: false, error: error });
+//     }
+// });
 
 
-app.post("/viewAchievements", async(req, res) => {
-    try {
-        var userData = JSON.parse(req.body.userData);
-        const data = await get_achievements(auth, userData);
-        res.render("viewAchievements.ejs", { isValid: true, userData: userData, achievements: data });
-    } catch (error) {
-        console.log(error);
-        res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
-    }
-});
+// app.use(fileUpload());
+// app.post("/updating_achievement", async(req, res) => {
+
+//     try {
+
+//         var userData = JSON.parse(req.body.userData);
+//         userData.nameOfEvent = req.body.nameOfEvent;
+//         userData.detailsOfEvent = req.body.detailsOfEvent;
+//         userData.award = req.body.award;
+//         userData.level = req.body.level;
+//         userData.yearOfAchievement = parseInt(req.body.year);
+
+//         userData.certificate = "None";
+//         if(req.files && req.files.certificate) {
+//             var file = req.files.certificate;
+//             var filename = `${Date.now()}.pdf`;
+//             var filepath = await add_file_to_temp(file, filename);
+//             userData.certificate = await upload_certificate(auth, filepath, userData.email);
+//             fs.unlink(filepath, (err) => {
+//                 // console.log("file deleted");
+//             });
+//         } else {
+//             // console.log("no certificate");
+//         }
+
+//         for (let field in userData)
+//             if (field != 'year1' && field != 'year2' && field != 'year3' && field != 'year4' && !userData[field])
+//                 throw new Error("Invalid");
+
+//         await add_achievement(auth, userData);
+//         userData.certificate = "None"; // so that the same certificate doesn't get attached for the next achievement for which they didn't add certificate
+
+//         res.render("verify.ejs", { is_achievement_updated: true, userData: userData });
+//     } catch (error) {
+//         console.log(error);
+//         res.render("verify.ejs", { is_achievement_updated: false, userData: userData });
+//     }
+// });
 
 
-app.post("/verify_lecturer", async(req, res) => {
-    try {
-
-        var userData = {
-            name: null,
-            image: null,
-            email: null
-        };
-
-        userData.name = req.body.name;
-        userData.email = req.body.email;
-        userData.image = req.body.image;
-        // await is_lecturer(userData.email);
-        app.locals.all_batches = await get_batches(auth, global_data.index_table_id);
-        res.render("verify_lecturer.ejs", { userData: userData });
-
-    } catch (error) {
-        console.log(error);
-        res.render("index.ejs", { error: 'Not a lecturer' });
-    }
-});
+// app.post("/viewAchievements", async(req, res) => {
+//     try {
+//         var userData = JSON.parse(req.body.userData);
+//         const data = await get_achievements(auth, userData);
+//         res.render("viewAchievements.ejs", { isValid: true, userData: userData, achievements: data });
+//     } catch (error) {
+//         console.log(error);
+//         res.render("verify.ejs", { is_achievement_updated: null, userData: userData });
+//     }
+// });
 
 
-app.post("/studentAchievements", async(req, res) => {
-    try {
+// app.post("/verify_lecturer", async(req, res) => {
+//     try {
 
-        var userData = JSON.parse(req.body.userData);
-        var selected_departments = req.body.selected_departments;
-        if (!Array.isArray(selected_departments))
-            selected_departments = [req.body.selected_departments];
+//         var userData = {
+//             name: null,
+//             image: null,
+//             email: null
+//         };
 
-        var selected_batches = req.body.selected_batches;
-        if (!Array.isArray(selected_batches))
-            selected_batches = [req.body.selected_batches];
+//         userData.name = req.body.name;
+//         userData.email = req.body.email;
+//         userData.image = req.body.image;
+//         // await is_lecturer(userData.email);
+//         app.locals.all_batches = await get_batches(auth, global_data.index_table_id);
+//         res.render("verify_lecturer.ejs", { userData: userData });
 
-        var start_academic_year = parseInt(req.body.from_year);
-        var end_academic_year = parseInt(req.body.to_year);
-        var data = null;
-        var download = false;
+//     } catch (error) {
+//         console.log(error);
+//         res.render("index.ejs", { error: 'Not a lecturer' });
+//     }
+// });
 
-        if (selected_departments && selected_batches && start_academic_year && end_academic_year) {
-            data = await view_achievements(auth, selected_departments, selected_batches, start_academic_year, end_academic_year);
-            download = true;
-        }
 
-        res.render("studentAchievements.ejs", { userData: userData, all_batches: app.locals.all_batches, departments: app.locals.departments, download: download, data: data });
+// app.post("/studentAchievements", async(req, res) => {
+//     try {
 
-    } catch (error) {
-        console.log(error);
-        res.render("studentAchievements.ejs", { userData: userData, all_batches: app.locals.all_batches, departments: app.locals.departments, download: false, data: null });
-    }
+//         var userData = JSON.parse(req.body.userData);
+//         var selected_departments = req.body.selected_departments;
+//         if (!Array.isArray(selected_departments))
+//             selected_departments = [req.body.selected_departments];
 
-});
+//         var selected_batches = req.body.selected_batches;
+//         if (!Array.isArray(selected_batches))
+//             selected_batches = [req.body.selected_batches];
+
+//         var start_academic_year = parseInt(req.body.from_year);
+//         var end_academic_year = parseInt(req.body.to_year);
+//         var data = null;
+//         var download = false;
+
+//         if (selected_departments && selected_batches && start_academic_year && end_academic_year) {
+//             data = await view_achievements(auth, selected_departments, selected_batches, start_academic_year, end_academic_year);
+//             download = true;
+//         }
+
+//         res.render("studentAchievements.ejs", { userData: userData, all_batches: app.locals.all_batches, departments: app.locals.departments, download: download, data: data });
+
+//     } catch (error) {
+//         console.log(error);
+//         res.render("studentAchievements.ejs", { userData: userData, all_batches: app.locals.all_batches, departments: app.locals.departments, download: false, data: null });
+//     }
+
+// });
 
 
 app.post('/download', async (req, res) => {
