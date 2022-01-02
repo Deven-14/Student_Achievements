@@ -66,13 +66,37 @@
 
 
 // const get_file_ids = require('./functions/get_file_ids');
-const auth = require('./auth/get_auth');
-const get_user = require('./data_collectors/get_user');
-const protected_data = require('./auth/protected_Data.json');
-const get_spreadsheetId = require('./functions/get_spreadsheet_id')
-const is_lecturer = require('./functions/is_lecturer');
-const upload_certificate = require('./functions/get_upload_certificate_promise');
+// const auth = require('./auth/get_auth');
+// const get_user = require('./data_collectors/get_user');
+// const protected_data = require('./auth/protected_Data.json');
+// const get_spreadsheetId = require('./functions/get_spreadsheet_id')
+// const is_lecturer = require('./functions/is_lecturer');
+// const upload_certificate = require('./functions/get_upload_certificate_promise');
 // const {student_achievements_folder_id, all_departments} = require('./auth/protected_data');
+
+async function wait1() {
+    let d = 0;
+    for(let i = 0; i < 1000000; ++i) {
+        d += 1;
+    }
+    return d;
+}
+
+async function wait2() {
+    d = await wait1();
+    console.log(d);
+    d2 = await wait1();
+    console.log(d2);
+    return d+d2;
+}
+
+async function wait3() {
+    d = wait1();
+    console.log(d);
+    d2 = wait1();
+    console.log(d2);
+    return d+d2;
+}
 
 async function main()
 {
@@ -88,8 +112,11 @@ async function main()
     // console.log(a);
     //console.log(Date.now());
     
-    await upload_certificate(auth, "E:/Engineering college/documents/Deven Prakash Paramaj-ID Card.pdf", "dev1");
-
+    // await upload_certificate(auth, "E:/Engineering college/documents/Deven Prakash Paramaj-ID Card.pdf", "dev1");
+    d = await wait3();
+    console.log(d);
+    d = await wait2();
+    console.log(d);
 }
 
 main()
