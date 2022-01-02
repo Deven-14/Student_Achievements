@@ -306,49 +306,49 @@ app.use("/student", studentRouter);
 // });
 
 
-app.post('/download', async (req, res) => {
+// app.post('/download', async (req, res) => {
 
-    var data = JSON.parse(req.body.data);
-    var filepath = `./temp/${Date.now()}.xlsx`;
+//     var data = JSON.parse(req.body.data);
+//     var filepath = `./temp/${Date.now()}.xlsx`;
 
-    await write_to_excel(filepath, data);
-    res.download(filepath, "student_achievements.xlsx", (err) => {
-        if (err)
-            console.log("file download error");
-        else {
-            //console.log("downloaded");
-            fs.unlink(filepath, (err) => {
-                //console.log("file deleted");
-            });
-        }
-    });
+//     await write_to_excel(filepath, data);
+//     res.download(filepath, "student_achievements.xlsx", (err) => {
+//         if (err)
+//             console.log("file download error");
+//         else {
+//             //console.log("downloaded");
+//             fs.unlink(filepath, (err) => {
+//                 //console.log("file deleted");
+//             });
+//         }
+//     });
 
-});
-
-
-app.post('/createBatches', creating_batch, (req, res) => {
-    var userData = JSON.parse(req.body.userData);
-    res.render('createBatches.ejs', { userData: userData, all_batches: app.locals.all_batches });
-})
+// });
 
 
-async function creating_batch(req, res, next) {
-    console.log("batch year", req.body.batch_year);
-    if (req.body.batch_year && req.body.batch_year.localeCompare("NaN") != 0) {
-        try {
-            var batch_year = parseInt(req.body.batch_year);
-            await create_batch(batch_year);
-            app.locals.all_batches = await get_batches(auth, global_data.index_table_id);
-            console.log("createBatches : all batches", app.locals.all_batches);
-            next();
-        } catch (error) {
-            console.log("CONTACT THE DEVELOPER");
-        }
+// app.post('/createBatches', creating_batch, (req, res) => {
+//     var userData = JSON.parse(req.body.userData);
+//     res.render('createBatches.ejs', { userData: userData, all_batches: app.locals.all_batches });
+// })
 
-    } else {
-        next();
-    }
-}
+
+// async function creating_batch(req, res, next) {
+//     console.log("batch year", req.body.batch_year);
+//     if (req.body.batch_year && req.body.batch_year.localeCompare("NaN") != 0) {
+//         try {
+//             var batch_year = parseInt(req.body.batch_year);
+//             await create_batch(batch_year);
+//             app.locals.all_batches = await get_batches(auth, global_data.index_table_id);
+//             console.log("createBatches : all batches", app.locals.all_batches);
+//             next();
+//         } catch (error) {
+//             console.log("CONTACT THE DEVELOPER");
+//         }
+
+//     } else {
+//         next();
+//     }
+// }
 
 
 app.listen(port, () => {

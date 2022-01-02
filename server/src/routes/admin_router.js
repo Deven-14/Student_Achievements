@@ -9,6 +9,8 @@ const view_achievements = require('../services/data_viewers/view_achievements');
 const fs = require('fs');
 const write_to_excel = require('../services/data_viewers/write_to_excel');
 
+const create_batch = require('../services/create/create_batch');
+
 const router = express.Router();
 router.departments = global_data.all_departments;
 
@@ -93,5 +95,31 @@ router.post('/downloadAchievements', async (req, res) => {
     });
 
 });
+
+
+router.post('/createBatch', create_batch_utility, (req, res) => {
+    var userData = req.body.userData;
+    // res.render('createBatches.ejs', { userData: userData, all_batches: app.locals.all_batches });
+    res.send({ userData: userData, all_batches: router.all_batches });    
+});
+
+
+async function create_batch_utility(req, res, next) {
+    console.log("batch year", req.body.batch_year);
+    if (req.body.batch_year && req.body.batch_year.localeCompare("NaN") != 0) {
+        try {
+            var batch_year = parseInt(req.body.batch_year);
+            await create_batch(batch_year);
+            router.all_batches = await get_batches(auth, global_data.index_table_id);
+            console.log("createBatches : all batches", router.all_batches);
+        } catch (error) {
+            console.log("CONTACT THE DEVELOPER", error);
+        } finally {
+            next();
+        }
+    } else {
+        next();
+    }
+}
 
 module.exports = router;
