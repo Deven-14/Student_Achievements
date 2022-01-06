@@ -199,6 +199,8 @@ router.post("/viewAchievements", async (req, res) => {
     try {
         var userData = req.body.userData;
         console.log(userData);
+        console.log(userData.spreadsheetId);
+        console.log(JSON.parse(userDatat));
         const data = await get_achievements(auth, userData);
         // res.render("viewAchievements.ejs", { isValid: true, userData: userData, achievements: data });
         res.send({ isValid: true, userData: userData, achievements: data });
