@@ -30,6 +30,9 @@ app.use((req, res, next) => {
 app.use("/student", studentRouter);
 app.use("/admin", adminRouter);
 
+app.get("/", (req, res) => {
+    res.send("Working");
+});
 
 app.listen(port, () => {
     console.log(`this log is working on ${port}`);
