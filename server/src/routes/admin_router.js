@@ -19,12 +19,12 @@ router.use(express.json());
 router.use(express.urlencoded({ extended: false }));
 
 
-router.post("/verify", async (req, res) => {
+router.get("/verify", async (req, res) => {
 // async function verify(req, res, next) {
     try {
 
         var userData = new Admin();
-
+        console.log("here");
         userData.name = req.body.name;
         userData.email = req.body.email;
         userData.image = req.body.image;
