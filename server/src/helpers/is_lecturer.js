@@ -7,7 +7,7 @@ function is_lecturer(email) {
         if(isValid == null) {
             resolve(true);
         } else {
-            reject("Not a lecturer");
+            resolve(false);
         }
     });
 }

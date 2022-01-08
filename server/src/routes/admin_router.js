@@ -1,15 +1,15 @@
 const express = require("express");
-const global_data = require('../auth/global_data');
-const auth = require('../auth/get_auth');
+// const global_data = require('../auth/global_data');
+// const auth = require('../auth/get_auth');
 
-const Admin = require('../models/Admin');
-const get_batches = require("../helpers/get_batches");
-const view_achievements = require('../services/data_viewers/view_achievements');
+// const Admin = require('../models/Admin');
+// const get_batches = require("../helpers/get_batches");
+// const view_achievements = require('../services/data_viewers/view_achievements');
 
-const fs = require('fs');
-const write_to_excel = require('../services/data_viewers/write_to_excel');
+// const fs = require('fs');
+// const write_to_excel = require('../services/data_viewers/write_to_excel');
 
-const create_batch = require('../services/create/create_batch');
+// const create_batch = require('../services/create/create_batch');
 
 const router = express.Router();
 router.departments = global_data.all_departments;
