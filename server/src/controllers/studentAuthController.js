@@ -8,7 +8,8 @@ exports.register = async (req, res, next) => {
 
     try {
 
-        const { usn, name, email, image, phone } = req.body;
+        var { usn, name, email, image, phone } = req.body;
+        email = email.toLowerCase(); // sanitize: convert email to lowercase
     
         if (!(email && usn && name && image && phone)) {
             return res.status(400).json({ error: "All Inputs are Required" });
@@ -20,13 +21,7 @@ exports.register = async (req, res, next) => {
             return res.status(409).json({ error: "Student Already Exists, Please Login" });
         }
         
-        const student = await Student.create({
-            usn,
-            name,
-            email: email.toLowerCase(), // sanitize: convert email to lowercase
-            image,
-            phone
-        });
+        const student = await Student.create({ usn, name, email, image, phone });
     
         const token = generateAccessToken(student._id, email);
         const refreshToken = generateRefreshToken(student._id, email);
@@ -47,7 +42,8 @@ exports.login = async (req, res, next) => {
 
     try {
     
-        const { usn, email } = req.body;
+        var { usn, email } = req.body;
+        email = email.toLowerCase(); // sanitize: convert email to lowercase
 
         if (!(email && usn)) {
             return res.status(400).json({ error: "All Inputs are Required" });
@@ -86,7 +82,8 @@ exports.refreshToken = async (req, res) => {
     }
     try {
   
-        const { usn, email } = req.body;
+        var { usn, email } = req.body;
+        email = email.toLowerCase(); // sanitize: convert email to lowercase
 
         if (!(email && usn)) {
             return res.status(400).json({ error: "All Inputs are Required" });

@@ -5,10 +5,7 @@ const { signin, signup } = require("../../controllers/studentServiceController")
 const router = express.Router();
 
 router.use(express.json());
-
-// router.post("/register", register);
-
-// router.post("/login", login);
+router.use(express.urlencoded({ extended: false }));
 
 router.post("/signup", register, signup);
 

@@ -16,8 +16,6 @@ const add_achievement = require('../services/data_collectors/add_achievement');
 const add_file_to_temp = require('../helpers/add_file_to_temp');
 const upload_certificate = require('../helpers/upload_certificate');
 const fs = require('fs');
-const fileUpload = require('express-fileupload');
-
 const get_achievements = require('../services/data_collectors/get_achievements');
 
 
@@ -89,7 +87,8 @@ exports.addAchievement = async (req, res) => {
 
     try {
 
-        const { email } = req.user;
+        var { email } = req.user;
+        email = email.toLowerCase(); // sanitize: convert email to lowercase
 
         const student = await Student.findOne({ email });
         var presentYear = await get_student_presentYear(student.usn);
@@ -139,7 +138,8 @@ exports.viewAchievements = async (req, res) => {
 
     try {
 
-        const { email } = req.user;
+        var { email } = req.user;
+        email = email.toLowerCase(); // sanitize: convert email to lowercase
 
         const student = await Student.findOne({ email });
         var presentYear = await get_student_presentYear(student.usn);
