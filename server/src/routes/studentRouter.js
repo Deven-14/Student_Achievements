@@ -1,11 +1,17 @@
 const express = require("express");
-const { signin, signup } = require("../controllers/studentServiceController");
-// const { register, login } = require("../controllers/studentAuthController");
+const { addAchievement, viewAchievements } = require("../controllers/studentServiceController");
+const auth = require("../middlewares/auth");
 const router = express.Router();
+
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
 
 // router.post("/signup", register, signup);
 
 // router.post("/signin", login, signin);
-router.get("/abc", (req, res) => {} );
+
+router.post("/addAchievement", auth, addAchievement);
+
+router.post("/viewAchievements", auth, viewAchievements);
 
 module.exports = router;

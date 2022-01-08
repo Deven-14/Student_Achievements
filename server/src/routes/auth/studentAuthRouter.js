@@ -1,14 +1,12 @@
 const express = require("express");
-const { register, login, refreshToken } = require("../controllers/studentAuthController");
-const { signin, signup } = require("../controllers/studentServiceController");
+const { register, login, refreshToken } = require("../../controllers/studentAuthController");
+const { signin, signup } = require("../../controllers/studentServiceController");
 
 const router = express.Router();
 
 router.use(express.json());
 
-
 // router.post("/register", register);
-
 
 // router.post("/login", login);
 
