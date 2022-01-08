@@ -67,7 +67,7 @@ exports.login = async (req, res, next) => {
             next();
             
         } else {
-            res.status(401).json({ error: "Invalid Credentials 1" });
+            res.status(401).json({ error: "Invalid Credentials" });
         }
     } catch (err) {
         console.log(err);
@@ -97,8 +97,8 @@ exports.refreshToken = async (req, res) => {
         if (student && usn.localeCompare(student.usn) == 0) {
     
             const decoded = jwt.verify(token, process.env.REFRESH_TOKEN_SECRECT);
-            const { student_id, email } = decoded;
-            const accessToken = generateAccessToken(student_id, email);
+            const { user_id, email } = decoded;
+            const accessToken = generateAccessToken(user_id, email);
             res.status(200).json({ accessToken });
     
         } else {

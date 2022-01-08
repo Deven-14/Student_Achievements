@@ -31,16 +31,16 @@ const studentSchema = new mongoose.Schema({
     email: { type: String, unique: true },
     phone: { type: String, default: null },
     spreadsheetId: { type: String, default: null },
+    department: { type: String, default: null },
+    batch: { type: String, default: null },
 
     nameOfEvent: { type: String },
     detailsOfEvent: { type: String },
     level: { type: String },
     award: { type: String },
     certificate: { type: String },
-    department: { type: String },
-    batch: { type: String },
-    presentYear: { type: String },
-    yearOfAchievement: { type: String },
+    presentYear: { type: Number, integer: true },
+    yearOfAchievement: { type: Number, integer: true },
 
     token: { type: String },
     refreshToken: { type: String }
@@ -48,6 +48,5 @@ const studentSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("Student", studentSchema);
-
 
 // module.exports = Student;
