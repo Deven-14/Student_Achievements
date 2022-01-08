@@ -1,23 +1,23 @@
 const express = require('express');
-const global_data = require('../auth/global_data');
-const auth = require('../auth/get_auth');
+// const global_data = require('../auth/global_data');
+// const auth = require('../auth/get_auth');
 
-const Student = require('../models/Student');
-const get_spreadsheetId = require("../helpers/get_spreadsheet_id");
-const get_user_department_batch_presentYear = require('../services/data_collectors/get_user_department_batch_presentYear');
-const get_registered_user = require('../services/data_collectors/get_registered_user');
+// const Student = require('../models/Student');
+// const get_spreadsheetId = require("../helpers/get_spreadsheet_id");
+// const get_user_department_batch_presentYear = require('../services/data_collectors/get_user_department_batch_presentYear');
+// const get_registered_user = require('../services/data_collectors/get_registered_user');
 
-const validate_ph_number = require('../helpers/validate_ph_number');
-const isBatchPresent = require("../helpers/isBatchPresent");
-const add_user = require('../services/data_collectors/add_user');
+// const validate_ph_number = require('../helpers/validate_ph_number');
+// const isBatchPresent = require("../helpers/isBatchPresent");
+// const add_user = require('../services/data_collectors/add_user');
 
-const add_achievement = require('../services/data_collectors/add_achievement');
-const add_file_to_temp = require('../helpers/add_file_to_temp');
-const upload_certificate = require('../helpers/upload_certificate');
-const fs = require('fs');
-const fileUpload = require('express-fileupload');
+// const add_achievement = require('../services/data_collectors/add_achievement');
+// const add_file_to_temp = require('../helpers/add_file_to_temp');
+// const upload_certificate = require('../helpers/upload_certificate');
+// const fs = require('fs');
+// const fileUpload = require('express-fileupload');
 
-const get_achievements = require('../services/data_collectors/get_achievements');
+// const get_achievements = require('../services/data_collectors/get_achievements');
 
 const router = express.Router();
 router.departments = new Set(global_data.all_departments);

@@ -1,8 +1,11 @@
-const express = require('express');
+require("dotenv").config();
+require("./config/database").connect();
 const global_data = require('./src/auth/global_data');
-const studentRouter = require('./src/routes/student_router');
-const adminRouter = require('./src/routes/admin_router');
-require('dotenv').config();
+
+const express = require('express');
+// const studentRouter = require('./src/routes/student_router');
+// const adminRouter = require('./src/routes/admin_router');
+const router = require("./src/routes");
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -27,8 +30,9 @@ app.use((req, res, next) => {
 });
 
 
-app.use("/student", studentRouter);
-app.use("/admin", adminRouter);
+// app.use("/student", studentRouter);
+// app.use("/admin", adminRouter);
+app.use("/api", router);
 
 app.get("/", (req, res) => {
     res.send("Working");
