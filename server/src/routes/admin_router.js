@@ -27,7 +27,6 @@ router.post("/verify", async (req, res) => {
         console.log("here");
         userData.name = req.body.name;
         userData.email = req.body.email;
-        userData.image = req.body.image;
         // await is_lecturer(userData.email);
         router.all_batches = await get_batches(auth, global_data.index_table_id);
         // res.render("verify_lecturer.ejs", { userData: userData });
