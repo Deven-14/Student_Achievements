@@ -11,10 +11,10 @@ exports.verify = async (req, res) => {
 
     try {
 
-        var { name, email, image } = req.body;
+        var { name, email } = req.body;
         email = email.toLowerCase(); // sanitize: convert email to lowercase
     
-        if (!(email  && name && image )) {
+        if (!(email  && name )) {
             return res.status(400).json({ error: "All Inputs are Required" });
         }
     
@@ -22,7 +22,7 @@ exports.verify = async (req, res) => {
     
         if (!admin && await is_lecturer(email)) {
             // return res.status(409).json({ error: "Admin Already Exists, Please Login" });
-            admin = await Admin.create({ name, email, image });
+            admin = await Admin.create({ name, email });
         } else if(!(await is_lecturer(email))){
             return res.status(400).json({ error: "Not a lecturer" });
         }

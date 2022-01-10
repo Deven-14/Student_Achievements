@@ -27,7 +27,6 @@ const studentSchema = new mongoose.Schema({
 
     usn: { type: String, default: null },
     name: { type: String, default: null },
-    image: { type: String, default: null },
     email: { type: String, unique: true },
     phone: { type: String, default: null },
     spreadsheetId: { type: String, default: null },

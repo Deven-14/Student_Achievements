@@ -8,10 +8,10 @@ exports.register = async (req, res, next) => {
 
     try {
 
-        var { usn, name, email, image, phone } = req.body;
+        var { usn, name, email, phone } = req.body;
         email = email.toLowerCase(); // sanitize: convert email to lowercase
     
-        if (!(email && usn && name && image && phone)) {
+        if (!(email && usn && name && phone)) {
             return res.status(400).json({ error: "All Inputs are Required" });
         }
     
@@ -21,7 +21,7 @@ exports.register = async (req, res, next) => {
             return res.status(409).json({ error: "Student Already Exists, Please Login" });
         }
         
-        const student = await Student.create({ usn, name, email, image, phone });
+        const student = await Student.create({ usn, name, email, phone });
     
         const token = generateAccessToken(student._id, email);
         const refreshToken = generateRefreshToken(student._id, email);
