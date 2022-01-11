@@ -9,7 +9,7 @@ function get_achievements(auth, userData) {
 
         var ranges = [];
         for(let i = 1; i <= 4; ++i) {
-            ranges.push(`year${i}!A2:H`);
+            ranges.push(`year${i}!A1:H`);
         }
 
         sheets.spreadsheets.values.batchGet({
@@ -20,6 +20,10 @@ function get_achievements(auth, userData) {
                 console.log(err);
             } else {
                 //console.log("got all achievements");
+                var columns = [];
+                if(result.data.valueRanges[0].values) {
+                    columns = result.data.valueRanges[0].values[0]; // features
+                }
                 var data = {};
                 for(let i = 0; i < 4; ++i) {
                     var values = [];
@@ -35,7 +39,8 @@ function get_achievements(auth, userData) {
 
                     data[`year${i+1}`] = values;
                 }
-                resolve(data);
+
+                resolve({data, columns});
             }
         });
         

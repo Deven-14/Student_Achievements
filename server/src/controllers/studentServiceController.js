@@ -145,10 +145,10 @@ exports.viewAchievements = async (req, res) => {
         var presentYear = await get_student_presentYear(student.usn);
         student.presentYear = presentYear;
 
-        const data = await get_achievements(auth, student);
+        const achievements = await get_achievements(auth, student);
         // res.render("viewAchievements.ejs", { isValid: true, userData: userData, achievements: data });
         // res.send({ isValid: true, achievements: data });
-        res.status(200).json({ isValid: true, achievements: data });
+        res.status(200).json({ isValid: true, achievements });
         
     } catch (error) {
         console.log(error);
