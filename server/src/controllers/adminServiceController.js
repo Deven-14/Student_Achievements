@@ -14,6 +14,8 @@ exports.studentAchievements = async (req, res) => {
 
         // const { email } = req.user;
 
+        console.log(req.body.selected_departments, req.body.selected_batches, req.body.from_year, req.body.to_year);
+
         var selected_departments = req.body.selected_departments;
         if (!Array.isArray(selected_departments)) {
             selected_departments = [req.body.selected_departments];
