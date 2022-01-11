@@ -26,14 +26,13 @@ function get_achievements(auth, userData) {
                     var rows = result.data.valueRanges[i].values;
                     if(rows){
                         for(let row of rows) {
-                            var achievement = Achievement(i+1, row);
+                            var achievement = new Achievement(i+1, row);
                             if(achievement.email.localeCompare(userData.email) == 0) {
                                 achievements.push(achievement);
                             }
                         }
                     }
                 }
-
                 resolve(achievements);
             }
         });
