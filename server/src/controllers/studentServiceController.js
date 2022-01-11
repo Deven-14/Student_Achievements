@@ -98,7 +98,7 @@ exports.addAchievement = async (req, res) => {
         student.detailsOfEvent = req.body.detailsOfEvent;
         student.award = req.body.award;
         student.level = req.body.level;
-        student.yearOfAchievement = parseInt(req.body.year);
+        student.yearOfAchievement = parseInt(req.body.yearOfAchievement);
 
         if(!student.nameOfEvent || !student.detailsOfEvent || !student.award || !student.level || !student.yearOfAchievement) {
             throw new Error("Data Missing");
