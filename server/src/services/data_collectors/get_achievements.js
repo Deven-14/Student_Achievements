@@ -1,4 +1,5 @@
 const {google} = require('googleapis');
+const Achievement = require("../../models/Achievement");
 
 function get_achievements(auth, userData) {
     
@@ -9,7 +10,7 @@ function get_achievements(auth, userData) {
 
         var ranges = [];
         for(let i = 1; i <= 4; ++i) {
-            ranges.push(`year${i}!A1:H`);
+            ranges.push(`year${i}!A2:H`);
         }
 
         sheets.spreadsheets.values.batchGet({
@@ -20,10 +21,6 @@ function get_achievements(auth, userData) {
                 console.log(err);
             } else {
                 //console.log("got all achievements");
-                var columns = [];
-                if(result.data.valueRanges[0].values) {
-                    columns = result.data.valueRanges[0].values[0]; // features
-                }
                 var data = {};
                 for(let i = 0; i < 4; ++i) {
                     var values = [];
@@ -32,7 +29,7 @@ function get_achievements(auth, userData) {
                     if(rows){
                         for(let row of rows) {
                             if(row[2].localeCompare(userData.email) == 0) {
-                                values.push(row);
+                                values.push(Achievement(i, row));
                             }
                         }
                     }
@@ -40,7 +37,7 @@ function get_achievements(auth, userData) {
                     data[`year${i+1}`] = values;
                 }
 
-                resolve({data, columns});
+                resolve(data);
             }
         });
         
