@@ -20,24 +20,21 @@ function get_achievements(auth, userData) {
             if (err) {
                 console.log(err);
             } else {
-                //console.log("got all achievements");
-                var data = {};
+                
+                var achievements = [];
                 for(let i = 0; i < 4; ++i) {
-                    var values = [];
-
                     var rows = result.data.valueRanges[i].values;
                     if(rows){
                         for(let row of rows) {
-                            if(row[2].localeCompare(userData.email) == 0) {
-                                values.push(Achievement(i, row));
+                            var achievement = Achievement(i+1, row);
+                            if(achievement.email.localeCompare(userData.email) == 0) {
+                                achievements.push(achievement);
                             }
                         }
                     }
-
-                    data[`year${i+1}`] = values;
                 }
 
-                resolve(data);
+                resolve(achievements);
             }
         });
         
