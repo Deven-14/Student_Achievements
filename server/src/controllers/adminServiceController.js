@@ -14,21 +14,18 @@ exports.studentAchievements = async (req, res) => {
 
         // const { email } = req.user;
 
-        console.log(req.body.selected_departments, req.body.selected_batches, req.body.from_year, req.body.to_year);
-        console.log(req.query.selected_departments, req.query.selected_batches, req.query.from_year, req.query.to_year);
-
-        var selected_departments = req.body.selected_departments;
+        var selected_departments = req.query.selected_departments;
         if (!Array.isArray(selected_departments)) {
-            selected_departments = [req.body.selected_departments];
+            selected_departments = [req.query.selected_departments];
         }
 
-        var selected_batches = req.body.selected_batches;
+        var selected_batches = req.query.selected_batches;
         if (!Array.isArray(selected_batches)) {
-            selected_batches = [req.body.selected_batches];
+            selected_batches = [req.query.selected_batches];
         }
 
-        var start_academic_year = parseInt(req.body.from_year);
-        var end_academic_year = parseInt(req.body.to_year);
+        var start_academic_year = parseInt(req.query.from_year);
+        var end_academic_year = parseInt(req.query.to_year);
         var data = null;
         var download = false;
 
