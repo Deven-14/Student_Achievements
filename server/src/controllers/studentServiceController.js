@@ -51,15 +51,18 @@ exports.signup = async (req, res) => {
         var spreadsheetId = await get_spreadsheetId(auth, department, batch);
 
         await validate_ph_number(student.phone);
+        console.log("here1");
 
         if (!departments.has(department)) {
             throw new Error("Invalid department");
         }
+        console.log("here2");
 
         var isPresent = await isBatchPresent(auth, global_data.index_table_id, batch);
         if (isPresent == false) {
             throw new Error("Invalid batch");
         }
+        console.log("here3");
 
         var updated_student = await Student.findOneAndUpdate({ email: student.email }, { spreadsheetId, department, batch }, { new: true });
 
@@ -67,14 +70,19 @@ exports.signup = async (req, res) => {
         student.department = updated_student.department;
         student.batch = updated_student.batch;
         student.presentYear = presentYear;
+        console.log("here4");
 
         await add_user(auth, student);
+        console.log("here5");
 
         // res.render("verify.ejs", { is_achievement_updated: null, student: student });
         res.status(201).json({ is_achievement_updated: null, userData: student });
+        console.log("here6");
+
 
     } catch (error) {
         console.log(error);
+        console.log("here7");
         await Student.findOneAndDelete({ email: student.email });
         // res.render("index.ejs", { isValid: false, error: error })
         res.status(401).json({ error: "Invalid Credentials" });
