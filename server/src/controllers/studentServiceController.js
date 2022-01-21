@@ -70,7 +70,7 @@ exports.signup = async (req, res) => {
         student.department = updated_student.department;
         student.batch = updated_student.batch;
         student.presentYear = presentYear;
-        console.log("here4");
+        console.log("here4", presentYear, student.presentYear);
 
         await add_user(auth, student);
         console.log("here5", student);

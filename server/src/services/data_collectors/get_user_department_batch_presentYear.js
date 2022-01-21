@@ -5,7 +5,7 @@ async function get_user_department_batch_presentYear(usn) {
     var data = {};
 
     let year = parseInt("20" + usn.slice(3, 5));
-    data.presentYear = get_student_presentYear(usn);
+    data.presentYear = await get_student_presentYear(usn);
     
     data.batch = `batch-${year}-${year+4}`;
 
