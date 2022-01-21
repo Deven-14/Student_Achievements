@@ -73,7 +73,7 @@ exports.signup = async (req, res) => {
         console.log("here4");
 
         await add_user(auth, student);
-        console.log("here5");
+        console.log("here5", student);
 
         // res.render("verify.ejs", { is_achievement_updated: null, student: student });
         res.status(201).json({ is_achievement_updated: null, userData: student });
