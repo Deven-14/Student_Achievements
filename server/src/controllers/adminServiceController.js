@@ -37,7 +37,21 @@ exports.studentAchievements = async (req, res) => {
         }
 
         // res.render("studentAchievements.ejs", { userData: userData, all_batches: router.all_batches, departments: router.departments, download: download, data: data });
-        res.status(200).json({ download: download, data: data });
+        
+        // res.status(200).json({ download: download, data: data });
+        var filepath = `./temp/${Date.now()}.xlsx`;
+
+        await write_to_excel(filepath, data);
+        res.status(200).download(filepath, "student_achievements.xlsx", (err) => {
+            if (err) {
+                console.log("file download error");
+            } else {
+                //console.log("downloaded");
+                fs.unlink(filepath, (err) => {
+                    //console.log("file deleted");
+                });
+            }
+        });
 
     } catch (error) {
         console.log(error);
