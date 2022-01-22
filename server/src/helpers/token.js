@@ -4,7 +4,7 @@ function generateAccessToken(id, email) {
     return jwt.sign(
         { user_id: id, email },
         process.env.ACCESS_TOKEN_SECRECT,
-        { expiresIn: "2m" }
+        { expiresIn: "30d" }
     );
 }
 
@@ -13,7 +13,7 @@ function generateRefreshToken(id, email) {
     return jwt.sign(
         { user_id: id, email },
         process.env.REFRESH_TOKEN_SECRECT,
-        { expiresIn: "8m" }
+        { expiresIn: "60d" }
     );
 }
 
