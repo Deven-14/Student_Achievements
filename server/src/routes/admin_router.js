@@ -11,6 +11,8 @@ const express = require("express");
 
 // const create_batch = require('../services/create/create_batch');
 
+const create_batch = require('../services/create/create_batch');
+
 const router = express.Router();
 router.departments = global_data.all_departments;
 
