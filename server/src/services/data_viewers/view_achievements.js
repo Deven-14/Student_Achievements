@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const global_data = require("../auth/global_data");
-const get_department_ids = require("../functions/get_department_ids");
+const global_data = require("../../auth/global_data");
+const get_department_ids = require("../../helpers/get_department_ids");
 
 
 function get_batches_having_academic_year(batches, start_academic_year, end_academic_year)
@@ -11,10 +11,12 @@ function get_batches_having_academic_year(batches, start_academic_year, end_acad
         for(let batch of batches)
         {
             var arr = batch.split("-");
-            var begin = arr[1];
-            var end = arr[2];
-            if((start_academic_year >= begin && start_academic_year < end) || (end_academic_year <= end && end_academic_year > begin))
+            var begin = parseInt(arr[1]);
+            var end = parseInt(arr[2]);
+            // if((start_academic_year >= begin && start_academic_year < end) || (end_academic_year <= end && end_academic_year > begin)) {
+            if(start_academic_year < end && end_academic_year > begin) {
                 new_batches.push(batch);
+            }
         }    
         resolve(new_batches);
     
@@ -173,16 +175,19 @@ function view_achievements(auth, departments, batches, start_academic_year, end_
             promises.push(promise);
         }
 
+        // console.log(batches, departments, start_academic_year, end_academic_year);
+
         var data_temp = await Promise.all(promises);
         for(let i in data_temp)
             data[departments[i]] = data_temp[i];
 
-        //console.log(data);
+        // console.log(data);
         var new_data = await get_data_in_format(data, start_academic_year, end_academic_year);
         resolve(new_data);
 
     });
 }
 
+// console.log(get_batches_having_academic_year(["batch-2019-2023"], 2024, 2026));
 
 module.exports = view_achievements;

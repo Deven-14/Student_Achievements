@@ -1,8 +1,8 @@
 const { google } = require('googleapis');
-const auth = require("../auth/get_auth");
-const get_department_ids = require('../functions/get_department_ids');
-const global_data = require("../auth/global_data");
-const isBatchPresent = require("../functions/isBatchPresent");
+const auth = require("../../auth/get_auth");
+const get_department_ids = require('../../helpers/get_department_ids');
+const global_data = require("../../auth/global_data");
+const isBatchPresent = require("../../helpers/isBatchPresent");
 
 
 function create_spread_sheet(drive, folderId, batch) {
@@ -335,7 +335,7 @@ async function main(year) {
     return new Promise(async(resolve, reject) => {
 
         if (!(typeof year == 'number' && year > 2017)) {
-            resolve("Fail");
+            reject("Fail");
         }
 
         const sheets = google.sheets({ version: 'v4', auth });
@@ -346,20 +346,21 @@ async function main(year) {
 
         if (isPresent == true) {
             console.log("batch already present");
-            return;
+            reject("batch already present");
+        } else {
+
+            var spreadsheetIds = await create_batch_for_all_departments(sheets, batch);
+
+            var promises = [];
+            for (let spreadsheetId of spreadsheetIds) {
+                let promise = make_batch_general_format(sheets, spreadsheetId);
+                promises.push(promise);
+            }
+            await Promise.all(promises);
+
+            console.log("Done with all Departments");
+            resolve("Done with all Departments");
         }
-
-        var spreadsheetIds = await create_batch_for_all_departments(sheets, batch);
-
-        var promises = [];
-        for (let spreadsheetId of spreadsheetIds) {
-            let promise = make_batch_general_format(sheets, spreadsheetId);
-            promises.push(promise);
-        }
-        await Promise.all(promises);
-
-        console.log("Done with all Departments");
-        resolve("Done with all Departments");
     });
 }
 
