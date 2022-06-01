@@ -1,7 +1,7 @@
-const jwt = require("jsonwebtoken");
+import { sign } from "jsonwebtoken";
 
-function generateAccessToken(id, email) {
-    return jwt.sign(
+export function generateAccessToken(id, email) {
+    return sign(
         { user_id: id, email },
         process.env.ACCESS_TOKEN_SECRECT,
         { expiresIn: "30d" }
@@ -9,12 +9,10 @@ function generateAccessToken(id, email) {
 }
 
 
-function generateRefreshToken(id, email) {
-    return jwt.sign(
+export function generateRefreshToken(id, email) {
+    return sign(
         { user_id: id, email },
         process.env.REFRESH_TOKEN_SECRECT,
         { expiresIn: "60d" }
     );
 }
-
-module.exports = { generateAccessToken, generateRefreshToken };
