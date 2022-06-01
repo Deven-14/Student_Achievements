@@ -1,17 +1,38 @@
 class Achievement {
-    constructor(yearOfAchievement, achievementArray) {
 
-        this.usn = achievementArray[0];
-        this.name = achievementArray[1];
-        this.email = achievementArray[2];
-        this.nameOfEvent = achievementArray[3];
-        this.detailsOfEvent = achievementArray[4];
-        this.level = achievementArray[5];
-        this.award = achievementArray[6];
-        this.certificate = achievementArray[7];
+    constructor({usn, name, email} = {}, {nameOfEvent, detailsOfEvent, level, award, certificateUrl = undefined, yearOfAchievement} = {}) {
+
+        this.usn = usn;
+        this.name = name;
+        this.email = email;
+        this.nameOfEvent = nameOfEvent;
+        this.detailsOfEvent = detailsOfEvent;
+        this.level = level;
+        this.award = award;
+        this.certificateUrl = certificateUrl;
         this.yearOfAchievement = yearOfAchievement;
+
+    }
+
+    static make(yearOfAchievement, achievementArray) {
+
+        const achievement = new Achievement();
+
+        achievement.usn = achievementArray[0];
+        achievement.name = achievementArray[1];
+        achievement.email = achievementArray[2];
+        achievement.nameOfEvent = achievementArray[3];
+        achievement.detailsOfEvent = achievementArray[4];
+        achievement.level = achievementArray[5];
+        achievement.award = achievementArray[6];
+        achievement.certificateUrl = achievementArray[7];
+        achievement.yearOfAchievement = yearOfAchievement;
+
+        return achievement;
         
     }
 }
 
-module.exports = Achievement;
+// console.log(Achievement.make(1, [0, 1, 2, 3, 4, 5, 6, 7]).level);
+
+export default Achievement;

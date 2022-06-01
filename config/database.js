@@ -1,11 +1,10 @@
-const mongoose = require("mongoose");
+import { connect } from "mongoose";
 
 const { MONGO_URI } = process.env;
 
-exports.connect = () => {
+export function connect() {
 
-  mongoose
-    .connect(MONGO_URI, {
+  connect(MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     })
@@ -18,7 +17,7 @@ exports.connect = () => {
       process.exit(1);
     });
 
-};
+}
 
 //   useCreateIndex: true,
 //   useFindAndModify: false,

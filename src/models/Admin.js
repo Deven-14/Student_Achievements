@@ -1,24 +1,27 @@
-// class Admin {
-//     constructor() {
+class Admin {
+    constructor({name, email} = {}) {
 
-//         this.name = null;
-//         this.image = null;
-//         this.email = null;
+        this.name = name;
+        this.email = email;
 
-//     }
-// }
+    }
+}
 
-const mongoose = require("mongoose");
+// console.log(new Admin());
 
-const adminSchema = new mongoose.Schema({
+export default Admin;
 
-    name: { type: String, default: null },
-    email: { type: String, unique: true },
+// import { Schema, model } from "mongoose";
 
-    token: { type: String },
-    refreshToken: { type: String }
-});
+// const adminSchema = new Schema({
 
-module.exports = mongoose.model("Admin", adminSchema);
+//     name: { type: String, default: null },
+//     email: { type: String, unique: true },
+//     image: { type: String },
 
-// module.exports = Admin;
+//     // token: { type: String },
+//     // refreshToken: { type: String }
+
+// });
+
+// export default model("Admin", adminSchema);
