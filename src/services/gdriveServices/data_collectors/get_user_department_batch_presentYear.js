@@ -1,4 +1,4 @@
-const get_student_presentYear = require("../../helpers/get_student_presentYear");
+const get_student_presentYear = require("../../../helpers/get_student_presentYear");
 
 async function get_user_department_batch_presentYear(usn) {
     

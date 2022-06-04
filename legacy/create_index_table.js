@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const auth = require("../../auth/get_auth");
-var global_data = require("../../auth/global_data");
+const auth = require("../src/auth/get_auth");
+var global_data = require("../src/auth/global_data");
 
 function create_index_table(auth, folderId)
 {
