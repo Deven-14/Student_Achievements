@@ -1,3 +1,4 @@
 /node_modules
 /.env
-/src/auth/service_account_credentials.json
+/src/config/service_account_credentials.json
+

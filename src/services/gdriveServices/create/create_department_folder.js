@@ -1,4 +1,5 @@
-import { create_folder } from "./create_folder";
+import { create_folder } from "./create_folder.js";
+import { get_auth } from "../auth/get_auth.js";
 
 // export async function create_department_folders() {
 
@@ -16,11 +17,11 @@ import { create_folder } from "./create_folder";
 
 // }
 
-export async function create_department_folder(auth, drive, departmentName, departmentCode) {
+export async function create_department_folder(drive, departmentName, departmentCode) {
 
     // const drive = google.drive({version: 'v3', auth});
 
-    const gauth = await get_auth(auth, ["https://www.googleapis.com/auth/drive"]);
+    const gauth = await get_auth(["https://www.googleapis.com/auth/drive"]);
     const gdrive = drive({version: 'v3', auth: gauth});
 
     try {

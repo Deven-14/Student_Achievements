@@ -1,4 +1,4 @@
-import { Batch } from "../../models/Batch"
+import Batch from "./../../models/Batch.js"
 
 export async function createBatchDocument(departmentCode, fromYear, toYear, folderId, spreadsheetId, certificatesFolderId) {
     try {

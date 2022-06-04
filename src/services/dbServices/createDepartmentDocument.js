@@ -1,4 +1,4 @@
-import { Department } from "../../models/Department"
+import Department from "./../../models/Department.js"
 
 export async function createDepartmentDocument(name, code, folderId) {
     try {
