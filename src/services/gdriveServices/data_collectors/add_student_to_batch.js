@@ -1,13 +1,13 @@
-import get_auth from './../auth/get_auth.js';
+import get_auth from '../auth/get_auth.js';
 import get_sort_sheet_requests from './get_sort_sheet_requests.js';
 
-async function get_add_user_data_requests(user, sheetId) {
+async function get_add_student_data_requests(student, sheetId) {
 
     var data1 = [
-        user.usn,
-        user.name,
-        user.email,
-        user.phone
+        student.usn,
+        student.name,
+        student.email,
+        student.phone
     ];
     var values = [];
 
@@ -53,12 +53,12 @@ async function get_add_user_data_requests(user, sheetId) {
     return requests;
 }
 
-export async function add_user(sheets, user, spreadsheetId) {
+export async function add_student_to_batch(sheets, student, batchSpreadsheetId) {
 
     const sheetId = 0;
 
     var requests = [];
-    var requests1 = await get_add_user_data_requests(user, sheetId);
+    var requests1 = await get_add_student_data_requests(student, sheetId);
     var requests2 = await get_sort_sheet_requests(sheetId);
     requests.push(...requests1, ...requests2);
 
@@ -70,15 +70,15 @@ export async function add_user(sheets, user, spreadsheetId) {
     try {
 
         await gsheets.spreadsheets.batchUpdate({
-            spreadsheetId : spreadsheetId,
+            spreadsheetId : batchSpreadsheetId,
             resource
         });
 
-        console.log("added user", user);
+        console.log("added student", student);
 
     } catch(error) {
         console.log(error);
-        console.log("Error adding user", user);
+        console.log("Error adding student", student);
         throw error;
     }
     

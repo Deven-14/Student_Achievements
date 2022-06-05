@@ -1,6 +1,7 @@
-import Achievement from "../../models/Achievement.js";
+import Achievement from "./../../../interfaces/Achievement.js";
+import get_auth from "../auth/get_auth.js";
 
-export async function get_achievements(sheets, student, spreadsheetId) {
+export default async function get_student_achievements_of_batch(sheets, student, batchSpreadsheetId) {
     
     const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
@@ -13,17 +14,18 @@ export async function get_achievements(sheets, student, spreadsheetId) {
     try {
 
         const res = await gsheets.spreadsheets.values.batchGet({
-            spreadsheetId,
+            spreadsheetId: batchSpreadsheetId,
             ranges,
         });
 
         var achievements = [];
         for(let i = 0; i < 4; ++i) {
             var rows = res.data.valueRanges[i].values;
+            console.log(rows);
             if(rows) {
                 for(let row of rows) {
-                    var achievement = new Achievement(i+1, row);
-                    if(achievement.email.localeCompare(student.email) == 0) {
+                    var achievement = Achievement.make(i+1, row);
+                    if(achievement.email == student.email) {
                         achievements.push(achievement);
                     }
                 }
@@ -34,7 +36,7 @@ export async function get_achievements(sheets, student, spreadsheetId) {
 
     } catch(error) {
         console.log(error);
-        console.log("Error getting achievements for", email);
+        console.log("Error getting achievements for", student.email);
         throw error;
     }
     
