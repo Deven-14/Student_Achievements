@@ -1,5 +1,5 @@
 import Achievement from "./../../../interfaces/Achievement.js";
-import get_auth from "../auth/get_auth.js";
+import get_auth from "./../auth/get_auth.js";
 
 export default async function get_student_achievements_of_batch(sheets, student, batchSpreadsheetId) {
     
