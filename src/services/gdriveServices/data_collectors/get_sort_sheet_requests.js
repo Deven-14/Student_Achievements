@@ -1,5 +1,5 @@
 
-export async function get_sort_sheet_requests(sheetId) {
+export default async function get_sort_sheet_requests(sheetId) {
 
     var requests = [];
 

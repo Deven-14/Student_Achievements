@@ -1,5 +1,5 @@
-import { get_auth } from './../auth/get_auth.js';
-import { get_sort_sheet_requests } from './get_sort_sheet_requests.js';
+import get_auth from './../auth/get_auth.js';
+import get_sort_sheet_requests from './get_sort_sheet_requests.js';
 
 async function get_add_user_data_requests(user, sheetId) {
 

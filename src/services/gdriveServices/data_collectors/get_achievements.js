@@ -1,44 +1,41 @@
-const {google} = require('googleapis');
-const Achievement = require("../../models/Achievement");
+import Achievement from "../../models/Achievement.js";
 
-function get_achievements(auth, userData) {
+export async function get_achievements(sheets, student, spreadsheetId) {
     
-    return new Promise(async (resolve, reject) => {
+    const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
+    const gsheets = sheets({version: 'v4', auth: gauth});
 
-        const sheets = google.sheets({version: 'v4', auth});
-        const spreadsheetId = userData.spreadsheetId;
+    var ranges = [];
+    for(let i = 1; i <= 4; ++i) {
+        ranges.push(`year${i}!A2:H`);
+    }
 
-        var ranges = [];
-        for(let i = 1; i <= 4; ++i) {
-            ranges.push(`year${i}!A2:H`);
-        }
+    try {
 
-        sheets.spreadsheets.values.batchGet({
+        const res = await gsheets.spreadsheets.values.batchGet({
             spreadsheetId,
             ranges,
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                
-                var achievements = [];
-                for(let i = 0; i < 4; ++i) {
-                    var rows = result.data.valueRanges[i].values;
-                    if(rows){
-                        for(let row of rows) {
-                            var achievement = new Achievement(i+1, row);
-                            if(achievement.email.localeCompare(userData.email) == 0) {
-                                achievements.push(achievement);
-                            }
-                        }
+        });
+
+        var achievements = [];
+        for(let i = 0; i < 4; ++i) {
+            var rows = res.data.valueRanges[i].values;
+            if(rows) {
+                for(let row of rows) {
+                    var achievement = new Achievement(i+1, row);
+                    if(achievement.email.localeCompare(student.email) == 0) {
+                        achievements.push(achievement);
                     }
                 }
-                resolve(achievements);
             }
-        });
-        
-    });
+        }
 
+        return achievements;
+
+    } catch(error) {
+        console.log(error);
+        console.log("Error getting achievements for", email);
+        throw error;
+    }
+    
 }
-
-module.exports = get_achievements;

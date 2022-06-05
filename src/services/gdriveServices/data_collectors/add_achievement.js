@@ -1,32 +1,75 @@
-const {google} = require('googleapis');
-const get_add_year_data_requests = require('./get_add_year_data_requests');
-const get_sort_sheet_requests = require('./get_sort_sheet_requests');
+import get_auth from '../auth/get_auth.js';
+import get_sort_sheet_requests from './get_sort_sheet_requests.js';
 
-function add_achievement(auth, userData) {
+async function get_add_achievement_requests(achievement) {
 
-    return new Promise(async (resolve, reject) => {
+    var data = [
+        achievement.usn,
+        achievement.name,
+        achievement.email,
+        achievement.nameOfEvent,
+        achievement.detailsOfEvent,
+        achievement.level, // "Level(state/national/international)",
+        achievement.award, // "Award/Price"
+    ];
+    var values = [];
 
-        var requests = [];
-        var requests1 = await get_add_year_data_requests(userData);
-        var requests2 = await get_sort_sheet_requests(userData.yearOfAchievement);
-        requests.push(...requests1, ...requests2);
-
-        const resource = {requests};
-
-        const sheets = google.sheets({version: 'v4', auth});
-        sheets.spreadsheets.batchUpdate({
-            spreadsheetId : userData.spreadsheetId,
-            resource
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                //console.log("added achievement");
-                resolve("added achievement");
+    for(let ele of data)
+    {
+        values.push({
+            userEnteredValue: {
+                stringValue: ele,
             }
         });
-        
+    }
+
+    values.push({
+        userEnteredValue: {
+            formulaValue: `=HYPERLINK("${achievement.certificateUrl}")`,
+        }
     });
+
+    var requests = [{
+        appendCells : {
+            sheetId: achievement.yearOfAchievement,
+            rows : [
+                {
+                    values : values //only one row with values = values
+                }
+            ],
+            fields: "*"
+        }
+    }];
+
+    return requests;
+
 }
 
-module.exports = add_achievement;
+
+export async function add_achievement(sheets, achievement, spreadsheetId) {
+
+    var requests = [];
+    var requests1 = await get_add_achievement_requests(achievement);
+    var requests2 = await get_sort_sheet_requests(achievement.yearOfAchievement);
+    requests.push(...requests1, ...requests2);
+
+    const resource = {requests};
+
+    const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
+    const gsheets = sheets({version: 'v4', auth: gauth});
+
+    try {
+        
+        await gsheets.spreadsheets.batchUpdate({
+            spreadsheetId : spreadsheetId,
+            resource
+        });
+        console.log("added achievement", achievement);
+
+    } catch(error) {
+        console.log(error);
+        console.log("Error adding achievement", achievement);
+        throw error;
+    }
+
+}
