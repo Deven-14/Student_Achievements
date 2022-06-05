@@ -46,7 +46,7 @@ async function get_add_achievement_requests(achievement) {
 }
 
 
-export async function add_achievement_to_batch(sheets, achievement, batchSpreadsheetId) {
+export default async function add_achievement_to_batch(sheets, achievement, batchSpreadsheetId) {
 
     var requests = [];
     var requests1 = await get_add_achievement_requests(achievement);

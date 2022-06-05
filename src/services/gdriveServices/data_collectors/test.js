@@ -1,6 +1,6 @@
 import { sheets } from "@googleapis/sheets"
-import { add_achievement_to_batch } from "./add_achievement_to_batch.js";
-import { add_student_to_batch } from "./add_student_to_batch.js";
+import add_achievement_to_batch from "./add_achievement_to_batch.js";
+import add_student_to_batch from "./add_student_to_batch.js";
 import Student from "./../../../interfaces/Student.js";
 import Achievement from "./../../../interfaces/Achievement.js";
 import get_student_achievements_of_batch from "./get_student_achievements_of_batch.js";

@@ -1,5 +1,5 @@
 
-export async function create_folder(gdrive, parentFolderId, folderName)
+export default async function create_folder(gdrive, parentFolderId, folderName)
 {
     var fileMetadata = {
         name: folderName,
@@ -14,7 +14,7 @@ export async function create_folder(gdrive, parentFolderId, folderName)
             fields: "id"
         });
 
-        console.log("Folder Name:", folderName, "\nFolder Id:", res.data.id);
+        console.log("Created Folder Name:", folderName, ", Folder Id:", res.data.id);
         return res.data.id;
 
     } catch(error) {

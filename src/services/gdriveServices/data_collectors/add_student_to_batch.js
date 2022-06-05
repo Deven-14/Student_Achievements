@@ -53,7 +53,7 @@ async function get_add_student_data_requests(student, sheetId) {
     return requests;
 }
 
-export async function add_student_to_batch(sheets, student, batchSpreadsheetId) {
+export default async function add_student_to_batch(sheets, student, batchSpreadsheetId) {
 
     const sheetId = 0;
 

@@ -1,5 +1,5 @@
-import { create_folder } from './create_folder.js';
-import { get_auth } from "../auth/get_auth.js";
+import create_folder from './create_folder.js';
+import get_auth from "../auth/get_auth.js";
 
 
 async function create_spreadsheet(gdrive, parentFolderId, spreadsheetName) {
@@ -17,7 +17,7 @@ async function create_spreadsheet(gdrive, parentFolderId, spreadsheetName) {
             fields: "id"
         });
 
-        console.log("spreadsheet Name:", spreadsheetName, "\nspreadsheet Id:", res.data.id);
+        console.log("Created spreadsheet Name:", spreadsheetName, ", spreadsheet Id:", res.data.id);
         return res.data.id;
 
     } catch(error) {
@@ -142,7 +142,7 @@ async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
 
 }
 
-export async function create_batch_for_department(sheets, drive, departmentFolderId, batchName) {
+export default async function create_batch_for_department(sheets, drive, departmentFolderId, batchName) {
 
     var gauth = await get_auth(["https://www.googleapis.com/auth/drive"]);
     const gdrive = drive({version: 'v3', auth: gauth});

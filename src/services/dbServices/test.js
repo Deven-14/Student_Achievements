@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
-import { createBatchDocument } from "./createBatchDocument.js";
-import { createDepartmentDocument } from "./createDepartmentDocument.js";
+import createBatchDocument from "./createBatchDocument.js";
+import createDepartmentDocument from "./createDepartmentDocument.js";
 import { dbConnect } from "../../config/database.js";
 
 async function createBatchDocumentTest() {

@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 const { connect } = mongoose;
 
-export async function dbConnect() {
+export default async function dbConnect() {
 
     await connect(process.env.MONGO_URI, {
         useNewUrlParser: true,

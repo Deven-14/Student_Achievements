@@ -1,5 +1,5 @@
-import { create_folder } from "./create_folder.js";
-import { get_auth } from "../auth/get_auth.js";
+import create_folder from "./create_folder.js";
+import get_auth from "../auth/get_auth.js";
 
 // export async function create_department_folders() {
 
@@ -17,7 +17,7 @@ import { get_auth } from "../auth/get_auth.js";
 
 // }
 
-export async function create_department_folder(drive, departmentName, departmentCode) {
+export default async function create_department_folder(drive, departmentName, departmentCode) {
 
     // const drive = google.drive({version: 'v3', auth});
 
