@@ -1,30 +1,24 @@
 
-function get_sort_sheet_requests(sheet_id) {
+export async function get_sort_sheet_requests(sheetId) {
 
-    return new Promise((resolve, reject) => {
+    var requests = [];
 
-        var requests = [];
-
-        requests.push({
-            sortRange: {
-                range: {
-                    sheetId: sheet_id, // added sheetId as properties in create format
-                    startRowIndex: 1,
-                    startColumnIndex: 0,
-                    endColumnIndex: 10
-                },
-                sortSpecs: [
-                    {
-                        dimensionIndex: 0, // sort with respect to usn
-                        sortOrder: "ASCENDING",
-                    }
-                ]
+    requests.push({
+        sortRange: {
+            range: {
+                sheetId: sheetId, // added sheetId as properties in create format
+                startRowIndex: 1,
+                startColumnIndex: 0,
+                endColumnIndex: 10
             },
-        });
-        
-        resolve(requests);
-
+            sortSpecs: [
+                {
+                    dimensionIndex: 0, // sort with respect to usn
+                    sortOrder: "ASCENDING",
+                }
+            ]
+        },
     });
-}
 
-module.exports = get_sort_sheet_requests;
+    return requests;
+}
