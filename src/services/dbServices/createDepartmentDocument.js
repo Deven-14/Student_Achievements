@@ -1,6 +1,6 @@
 import Department from "./../../models/Department.js"
 
-export async function createDepartmentDocument(name, code, folderId) {
+export default async function createDepartmentDocument(name, code, folderId) {
     try {
         
         await Department.create({name: name, code: code, folderId: folderId});

@@ -1,33 +1,6 @@
-import create_folder from './create_folder.js';
 import get_auth from "../auth/get_auth.js";
-
-
-async function create_spreadsheet(gdrive, parentFolderId, spreadsheetName) {
-
-    var fileMetadata = {
-        name: spreadsheetName,
-        mimeType: 'application/vnd.google-apps.spreadsheet',
-        parents: [parentFolderId]
-    };
-
-    try {
-
-        const res = await gdrive.files.create({
-            requestBody: fileMetadata,
-            fields: "id"
-        });
-
-        console.log("Created spreadsheet Name:", spreadsheetName, ", spreadsheet Id:", res.data.id);
-        return res.data.id;
-
-    } catch(error) {
-        console.log(error);
-        console.log("Error creating spreadsheet", spreadsheetName);
-        throw error;
-    }
-
-}
-
+import create_folder from './create_folder.js';
+import create_spreadsheet from "./create_spreadsheet.js";
 
 async function get_append_sheet1_headers_requests() {
 
@@ -142,18 +115,21 @@ async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
 
 }
 
-export default async function create_batch_for_department(sheets, drive, departmentFolderId, batchName) {
+export default async function create_batch_for_department(sheets, drive, department, batchName) {
 
     var gauth = await get_auth(["https://www.googleapis.com/auth/drive"]);
     const gdrive = drive({version: 'v3', auth: gauth});
     gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
 
-    const batchFolderId = await create_folder(gdrive, departmentFolderId, batchName);
+    const batchFolderId = await create_folder(gdrive, department.folderId, batchName);
     const promise1 = create_spreadsheet(gdrive, batchFolderId, "Achievements");
     const promise2 = create_folder(gdrive, batchFolderId, "Certificates");
     const [spreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
+
     await make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
+
+    // https://script.google.com/macros/s/AKfycbwF292P-krRVerjpt3Toiyy2jwtEc1xDWxJJt5WGWdvBOzuhMyh14h31pSzLB3tSc8CWQ/exec
 
     return {folderId: batchFolderId, spreadsheetId, certificatesFolderId};
     

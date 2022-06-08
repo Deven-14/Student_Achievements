@@ -20,21 +20,21 @@ async function get_add_student_data_requests(student, sheetId) {
         });
     }
 
-    var data2 = [
-        "=COUNTIF(year1!C2:C, Sheet1!C2:C)", // Sheet1!C2:C is required coz C2:C didn't work using api
-        "=COUNTIF(year2!C2:C, Sheet1!C2:C)",
-        "=COUNTIF(year3!C2:C, Sheet1!C2:C)",
-        "=COUNTIF(year4!C2:C, Sheet1!C2:C)"
-    ];
+    // var data2 = [
+    //     "=COUNTIF(year1!C2:C, Sheet1!C2:C)", // Sheet1!C2:C is required coz C2:C didn't work using api
+    //     "=COUNTIF(year2!C2:C, Sheet1!C2:C)",
+    //     "=COUNTIF(year3!C2:C, Sheet1!C2:C)",
+    //     "=COUNTIF(year4!C2:C, Sheet1!C2:C)"
+    // ];
 
-    for(let ele of data2)
-    {
-        values.push({
-            userEnteredValue: {
-                formulaValue: ele,
-            }
-        });
-    }
+    // for(let ele of data2)
+    // {
+    //     values.push({
+    //         userEnteredValue: {
+    //             formulaValue: ele,
+    //         }
+    //     });
+    // }
 
     var requests = [];
 

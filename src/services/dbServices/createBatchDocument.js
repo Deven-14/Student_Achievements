@@ -1,6 +1,6 @@
 import Batch from "./../../models/Batch.js"
 
-export async function createBatchDocument(departmentCode, fromYear, toYear, folderId, spreadsheetId, certificatesFolderId) {
+export default async function createBatchDocument(departmentCode, fromYear, toYear, folderId, spreadsheetId, certificatesFolderId) {
     try {
         
         await Batch.create({departmentCode, fromYear, toYear, folderId, spreadsheetId, certificatesFolderId});

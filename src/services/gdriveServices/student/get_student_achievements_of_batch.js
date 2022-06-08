@@ -21,7 +21,6 @@ export default async function get_student_achievements_of_batch(sheets, student,
         var achievements = [];
         for(let i = 0; i < 4; ++i) {
             var rows = res.data.valueRanges[i].values;
-            console.log(rows);
             if(rows) {
                 for(let row of rows) {
                     var achievement = Achievement.make(i+1, row);

@@ -17,8 +17,8 @@ async function create_department_folder_test() {
 
 async function main() {
     dotenv.config({ path: "./../../../../.env" });
-    const folderId = await create_department_folder_test();
-    await create_batch_for_department_test(folderId);
+    // const folderId = await create_department_folder_test();
+    // await create_batch_for_department_test(folderId);
 }
 
 main();

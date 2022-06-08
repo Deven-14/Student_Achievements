@@ -1,122 +1,128 @@
-const {google} = require('googleapis');
-const global_data = require("../../auth/global_data");
-const get_department_ids = require("../../helpers/get_department_ids");
+import get_auth from "./../auth/get_auth.js";
 
+async function get_batches_within_academic_year(batches, start_academic_year, end_academic_year) {
 
-function get_batches_having_academic_year(batches, start_academic_year, end_academic_year)
-{
-    return new Promise((resolve, reject) =>{
+    var new_batches = [];
+    for(let batch of batches)
+    {
+        var begin = batch.fromYear;
+        var end = batch.toYear;
+        if(start_academic_year < end && end_academic_year > begin) {
+            new_batches.push(batch);
+        }
+    }
 
-        var new_batches = [];
-        for(let batch of batches)
-        {
-            var arr = batch.split("-");
-            var begin = parseInt(arr[1]);
-            var end = parseInt(arr[2]);
-            // if((start_academic_year >= begin && start_academic_year < end) || (end_academic_year <= end && end_academic_year > begin)) {
-            if(start_academic_year < end && end_academic_year > begin) {
-                new_batches.push(batch);
-            }
-        }    
-        resolve(new_batches);
-    
-    });
+    return new_batches;
+
 }
 
-function get_batch_data(sheets, batch_id, years)
+async function get_achievements_of_years_of_batch(gsheets, years, batchSpreadsheetId)
 {
-    return new Promise((resolve, reject) =>{
+    var ranges = [];
+    for(let year of years)
+        ranges.push(`${year}!A2:H`);
 
-        var spreadsheetId = batch_id;
-        var ranges = [];
-        for(let year of years)
-            ranges.push(`${year}!A2:H`);
+    try {
 
-        sheets.spreadsheets.values.batchGet({
-            spreadsheetId,
+        const res = await gsheets.spreadsheets.values.batchGet({
+            spreadsheetId: batchSpreadsheetId,
             ranges,
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
-                //console.log(`got ${batch_id} achievements`);
-                var data = {};
-                for(let i in years)
-                    data[years[i]] = result.data.valueRanges[i].values;
-                resolve(data);
-            }
         });
-    });
-}
-
-function get_all_batches_data(sheets, batch_ids, start_academic_year, end_academic_year)
-{
-    return new Promise(async (resolve, reject) =>{
 
         var data = {};
-        var promises = [];
-
-        for(let batch in batch_ids)
-        {
-            var arr = batch.split("-");
-            var begin = parseInt(arr[1]);
-            var years = [];
-            for(let i = 0; i < 4; ++i)
-            {
-                if(begin + i >= start_academic_year && begin + i < end_academic_year)
-                    years.push(`year${i+1}`);
-            }
-            
-            var promise = get_batch_data(sheets, batch_ids[batch], years);
-            promises.push(promise);
+        for(let i in years) {
+            data[years[i]] = res.data.valueRanges[i].values;
         }
         
-        var temp_data = await Promise.all(promises);
-        var i = 0;
-        for(let batch in batch_ids)
-            data[batch] = temp_data[i++];
+        return data;
 
-        resolve(data);
-
-    });
+    } catch(error) {
+        console.log(error);
+        console.log("Cannot get batch data", batchSpreadsheetId);
+        throw error;
+    }
 }
 
+// function get_batch_ids_of_department(sheets, spreadsheetId, departments, batches) {
 
-function get_batch_ids_of_department(sheets, spreadsheetId, departments, batches) {
-
-    return new Promise((resolve, reject) => {
+//     return new Promise((resolve, reject) => {
         
-        var department_batch_ids = {};
-        batches = new Set(batches);
+//         var department_batch_ids = {};
+//         batches = new Set(batches);
 
-        var ranges = [];
-        for(let department of departments)
-            ranges.push(`${department}!A:B`);
+//         var ranges = [];
+//         for(let department of departments)
+//             ranges.push(`${department}!A:B`);
 
-        sheets.spreadsheets.values.batchGet({
-            spreadsheetId,
-            ranges,
-        }, (err, result) => {
-            if (err) {
-                console.log(err);
-            } else {
+//         sheets.spreadsheets.values.batchGet({
+//             spreadsheetId,
+//             ranges,
+//         }, (err, result) => {
+//             if (err) {
+//                 console.log(err);
+//             } else {
                 
-                var files = result.data.valueRanges;
-                for(let i in departments)
-                {
-                    var values = files[i].values;
-                    department_batch_ids[departments[i]] = {};
-                    var department_batches = {};
-                    for(let value of values)
-                        department_batches[value[0]] = value[1];
-                    for(let batch of batches)
-                        department_batch_ids[departments[i]][batch] = department_batches[batch];
-                }
-                //console.log(department_batch_ids);
-                resolve(department_batch_ids);
+//                 var files = result.data.valueRanges;
+//                 for(let i in departments)
+//                 {
+//                     var values = files[i].values;
+//                     department_batch_ids[departments[i]] = {};
+//                     var department_batches = {};
+//                     for(let value of values)
+//                         department_batches[value[0]] = value[1];
+//                     for(let batch of batches)
+//                         department_batch_ids[departments[i]][batch] = department_batches[batch];
+//                 }
+//                 //console.log(department_batch_ids);
+//                 resolve(department_batch_ids);
+//             }
+//         });
+//     });
+// }
+
+async function get_department_batches(departments, batches) {
+
+    const department_batches = {};
+
+    for(let department of departments) {
+        department_batches[department.code] = [];
+    }
+
+    for(let batch of batches) {
+        department_batches[batch.departmentCode].push(batch);
+    }
+
+    return department_batches;
+
+}
+
+async function get_all_batches_data(gsheets, batches, start_academic_year, end_academic_year) {
+
+    var batchAchievements = {};
+    var promises = [];
+
+    for(let batch of batches) {
+
+        var begin = batch.fromYear;
+        var years = [];
+        for(let i = 0; i < 4; ++i) {
+            if(begin + i >= start_academic_year && begin + i < end_academic_year) {
+                years.push(`year${i+1}`);
             }
-        });
-    });
+        }
+        
+        var promise = get_achievements_of_years_of_batch(gsheets, years, batch.spreadsheetId);
+        promises.push(promise);
+
+    }
+    
+    var batchAchievementsArray = await Promise.all(promises);
+    var i = 0;
+    for(let batch of batches) {
+        batchAchievements[`batch-${batch.fromYear}-${batch.toYear}`] = batchAchievementsArray[i++];
+    }
+
+    return batchAchievements;
 }
 
 function get_data_in_format(data, start_academic_year, end_academic_year)
@@ -157,37 +163,34 @@ function get_data_in_format(data, start_academic_year, end_academic_year)
     });
 }
 
-function view_achievements(auth, departments, batches, start_academic_year, end_academic_year)
+export default async function view_achievements(sheets, departments, batches, start_academic_year, end_academic_year)
 {
-    return new Promise(async (resolve, reject) =>{
+    var data = {};
 
-        var data = {};
-        const sheets = google.sheets({version: 'v4', auth});
+    const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
+    const gsheets = sheets({version: 'v4', auth: gauth});
 
-        batches = await get_batches_having_academic_year(batches, start_academic_year, end_academic_year);
+    batches = await get_batches_within_academic_year(batches, start_academic_year, end_academic_year);
 
-        var department_batches = await get_batch_ids_of_department(sheets, global_data.index_table_id, departments, batches);
+    var department_batches = await get_department_batches(departments, batches);
 
-        var promises = [];
-        for(let department in department_batches)
-        {
-            var promise = get_all_batches_data(sheets, department_batches[department], start_academic_year, end_academic_year);
-            promises.push(promise);
-        }
+    var promises = [];
+    for(let department in department_batches) {
+        var promise = get_all_batches_data(gsheets, department_batches[department], start_academic_year, end_academic_year);
+        promises.push(promise);
+    }
 
-        // console.log(batches, departments, start_academic_year, end_academic_year);
+    // console.log(batches, departments, start_academic_year, end_academic_year);
 
-        var data_temp = await Promise.all(promises);
-        for(let i in data_temp)
-            data[departments[i]] = data_temp[i];
+    var data_temp = await Promise.all(promises);
+    for(let i in data_temp) {
+        data[departments[i].code] = data_temp[i];
+    }
 
-        // console.log(data);
-        var new_data = await get_data_in_format(data, start_academic_year, end_academic_year);
-        resolve(new_data);
+    // console.log(data);
+    var new_data = await get_data_in_format(data, start_academic_year, end_academic_year);
 
-    });
+    return new_data;
 }
 
-// console.log(get_batches_having_academic_year(["batch-2019-2023"], 2024, 2026));
-
-module.exports = view_achievements;
+// console.log(get_batches_within_academic_year(["batch-2019-2023"], 2024, 2026));
