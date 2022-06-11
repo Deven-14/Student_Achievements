@@ -1,6 +1,7 @@
 import get_auth from "../auth/get_auth.js";
 import create_folder from './create_folder.js';
 import create_spreadsheet from "./create_spreadsheet.js";
+import fetch from "node-fetch";
 
 async function get_append_sheet1_headers_requests() {
 
@@ -28,6 +29,37 @@ async function get_append_sheet1_headers_requests() {
     return requests;
 }
 
+async function get_add_sheet1_nawards_formula_requests() {
+
+    var values = [];
+
+    for (let i = 1; i <= 4; ++i) {
+        values.push({
+            userEnteredValue: {
+                formulaValue: `=ARRAYFORMULA(IFNA(VLOOKUP(C2:C, QUERY(year${i}!C2:C, "select C, COUNT(C) group by C", -1), 2, FALSE), IF(LEN(C2:C) > 0, 0, )))`,
+            }
+        });
+    }
+
+    var requests = [{
+        updateCells: {
+            rows: [{
+                values: values //only one row with values = values
+            }],
+            fields: "*",
+            range: {
+                sheetId: 0,
+                startRowIndex: 1,
+                endRowIndex: 2,
+                startColumnIndex: 4,
+                endColumnIndex: 8
+            }
+              
+        }
+    }];
+
+    return requests;
+}
 
 async function get_add_year_sheets_requests() {
 
@@ -94,7 +126,8 @@ async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
     var requests1 = await get_append_sheet1_headers_requests();
     var requests2 = await get_add_year_sheets_requests();
     var requests3 = await get_append_year_sheet_headers_requests();
-    requests.push(...requests1, ...requests2, ...requests3);
+    var requests4 = await get_add_sheet1_nawards_formula_requests();
+    requests.push(...requests1, ...requests2, ...requests3, ...requests4);
 
     const resource = { requests };
 
@@ -127,12 +160,24 @@ export default async function create_batch_for_department(sheets, drive, departm
     const promise2 = create_folder(gdrive, batchFolderId, "Certificates");
     const [spreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
 
-    await make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
+    const promise3 = make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
 
-    // https://script.google.com/macros/s/AKfycbwF292P-krRVerjpt3Toiyy2jwtEc1xDWxJJt5WGWdvBOzuhMyh14h31pSzLB3tSc8CWQ/exec
+    const body = {
+        token: process.env.APP_SCRIPT_TOKEN,
+        batchName: batchName,
+        batchSpreadsheetId: spreadsheetId,
+        departmentCode: department.code
+    }
+    const promise4 = fetch(
+        `https://script.google.com/macros/s/${process.env.APP_SCRIPT_WEB_APP_ID}/exec`, {
+            method: 'post',
+            body: JSON.stringify(body)
+        }
+    );
+
+    await Promise.all([promise3, promise4]);
 
     return {folderId: batchFolderId, spreadsheetId, certificatesFolderId};
-    
 }
 
 // function create_batch_for_all_departments(sheets, batch) {

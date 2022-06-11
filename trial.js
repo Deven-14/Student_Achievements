@@ -98,6 +98,8 @@ async function wait3() {
     return d+d2;
 }
 
+import crypto from "crypto";
+
 async function main()
 {
     // var spreadsheetId = await get_spreadsheetId(auth, "IS", "batch-2019-2023");
@@ -113,10 +115,13 @@ async function main()
     //console.log(Date.now());
     
     // await upload_certificate(auth, "E:/Engineering college/documents/Deven Prakash Paramaj-ID Card.pdf", "dev1");
-    d = await wait3();
-    console.log(d);
-    d = await wait2();
-    console.log(d);
+    // d = await wait3();
+    // console.log(d);
+    // d = await wait2();
+    // console.log(d);
+
+    var token = crypto.randomBytes(20).toString('hex');
+    console.log(token);
 }
 
 main()

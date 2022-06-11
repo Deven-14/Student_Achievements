@@ -1,5 +1,5 @@
 import get_auth from '../auth/get_auth.js';
-import get_sort_sheet_requests from './get_sort_sheet_requests.js';
+import { get_sort_sheet_year_requests } from './get_sort_sheet_requests.js';
 
 async function get_add_achievement_requests(achievement) {
 
@@ -50,7 +50,7 @@ export default async function add_achievement_to_batch(sheets, achievement, batc
 
     var requests = [];
     var requests1 = await get_add_achievement_requests(achievement);
-    var requests2 = await get_sort_sheet_requests(achievement.yearOfAchievement);
+    var requests2 = await get_sort_sheet_year_requests(achievement.yearOfAchievement);
     requests.push(...requests1, ...requests2);
 
     const resource = {requests};
