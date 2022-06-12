@@ -1,5 +1,5 @@
 import create_folder from "./create_folder.js";
-import get_auth from "../auth/get_auth.js";
+import get_auth from "./../../auth/get_auth.js";
 
 // export async function create_department_folders() {
 

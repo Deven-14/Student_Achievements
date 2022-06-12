@@ -1,4 +1,4 @@
-import get_auth from "../auth/get_auth.js";
+import get_auth from "./../../auth/get_auth.js";
 
 async function get_batches_within_years(batches, fromYear, toYear) {
 

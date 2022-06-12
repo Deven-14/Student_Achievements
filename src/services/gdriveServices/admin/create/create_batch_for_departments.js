@@ -1,7 +1,8 @@
-import get_auth from "../auth/get_auth.js";
+import get_auth from "./../../auth/get_auth.js";
 import create_folder from './create_folder.js';
 import create_spreadsheet from "./create_spreadsheet.js";
 import fetch from "node-fetch";
+import Batch from "./../../../../models/Batch.js";
 
 async function get_append_sheet1_headers_requests() {
 
@@ -79,7 +80,6 @@ async function get_add_year_sheets_requests() {
     return requests;
 }
 
-
 async function get_append_year_sheet_headers_requests() {
 
     var headers = [
@@ -148,36 +148,78 @@ async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
 
 }
 
-export default async function create_batch_for_department(sheets, drive, department, batchName) {
+// do not export this function coz, the fetch call cannot be concurrent and hence it is moved to the create_batch_for_departments function
+async function create_batch_for_department(gsheets, gdrive, department, batch) {
+
+    const batchName = `batch-${batch.fromYear}-${batch.toYear}`;
+    const batchFolderId = await create_folder(gdrive, department.folderId, batchName);
+    const promise1 = create_spreadsheet(gdrive, batchFolderId, "Achievements");
+    const promise2 = create_folder(gdrive, batchFolderId, "Certificates");
+    const [spreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
+
+    await make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
+
+    return {
+        departmentCode: department.code, 
+        fromYear: batch.fromYear, 
+        toYear: batch.toYear, 
+        folderId: batchFolderId, 
+        spreadsheetId, 
+        certificatesFolderId
+    };
+}
+
+// this function cannot be performed concurrently, i.e don't call this function in Promise.all()
+async function add_batch_to_query_spreadsheet(batchName, batchDetails) {
+
+    const batchSpreadsheetIds = [];
+    const departmentCodes = [];
+
+    batchDetails.forEach(ele => {
+        batchSpreadsheetIds.push(ele.spreadsheetId);
+        departmentCodes.push(ele.departmentCode);
+    });
+
+    const body = {
+        token: process.env.APPS_SCRIPT_TOKEN,
+        batchName: batchName,
+        batchSpreadsheetIds: batchSpreadsheetIds,
+        departmentCodes: departmentCodes
+    }
+    try {
+        await fetch(
+            `https://script.google.com/macros/s/${process.env.APPS_SCRIPT_WEB_APP_ID}/exec`, {
+                method: 'post',
+                body: JSON.stringify(body)
+            }
+        );
+    } catch(error) {
+        console.log(error);
+        console.log("Failed to add batch to query spreadsheet");
+        throw error;
+    }
+}
+
+export default async function create_batch_for_departments(sheets, drive, departments, batch) {
 
     var gauth = await get_auth(["https://www.googleapis.com/auth/drive"]);
     const gdrive = drive({version: 'v3', auth: gauth});
     gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
 
-    const batchFolderId = await create_folder(gdrive, department.folderId, batchName);
-    const promise1 = create_spreadsheet(gdrive, batchFolderId, "Achievements");
-    const promise2 = create_folder(gdrive, batchFolderId, "Certificates");
-    const [spreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
-
-    const promise3 = make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
-
-    const body = {
-        token: process.env.APP_SCRIPT_TOKEN,
-        batchName: batchName,
-        batchSpreadsheetId: spreadsheetId,
-        departmentCode: department.code
+    const promises = [];
+    for(let department of departments) {
+        let promise = create_batch_for_department(gsheets, gdrive, department, batch);
+        promises.push(promise);
     }
-    const promise4 = fetch(
-        `https://script.google.com/macros/s/${process.env.APP_SCRIPT_WEB_APP_ID}/exec`, {
-            method: 'post',
-            body: JSON.stringify(body)
-        }
-    );
 
-    await Promise.all([promise3, promise4]);
+    const batchDetails = await Promise.all(promises);
 
-    return {folderId: batchFolderId, spreadsheetId, certificatesFolderId};
+    const batchName = `batch-${batch.fromYear}-${batch.toYear}`;
+    await add_batch_to_query_spreadsheet(batchName, batchDetails);
+
+    return batchDetails;
+
 }
 
 // function create_batch_for_all_departments(sheets, batch) {

@@ -99,6 +99,7 @@ async function wait3() {
 }
 
 import crypto from "crypto";
+import Batch from "./src/models/Batch.js";
 
 async function main()
 {
@@ -127,10 +128,12 @@ async function main()
     // for(let ele of abc) { // of doesn't work for objects
     //     console.log(ele);
     // }
-    for(let ele in abc) {
-        console.log(ele);
-    }
+    // for(let ele in abc) {
+    //     console.log(ele);
+    // }
     // console.log(abc.id);
+    console.log(new Batch({departmentCode: "A", fromYear: "2020", toYear:"2024"}));
+
 }
 
 main()
