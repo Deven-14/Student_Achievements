@@ -1,6 +1,6 @@
 class Achievement {
 
-    constructor({usn, name, email} = {}, {nameOfEvent, detailsOfEvent, level, award, certificateUrl = undefined, yearOfAchievement} = {}) {
+    constructor({usn, name, email} = {}, {nameOfEvent, detailsOfEvent, level, award, certificateUrl, yearOfAchievement} = {}) {
 
         this.usn = usn;
         this.name = name;
@@ -9,12 +9,12 @@ class Achievement {
         this.detailsOfEvent = detailsOfEvent;
         this.level = level;
         this.award = award;
-        this.certificateUrl = certificateUrl;
+        this.certificateUrl = certificateUrl; // certificateUrl is be automatically undefined if it is not there in the object
         this.yearOfAchievement = yearOfAchievement;
 
     }
 
-    static make(yearOfAchievement, achievementArray) {
+    static make(achievementArray, yearOfAchievement) {
 
         const achievement = new Achievement();
 
@@ -31,6 +31,7 @@ class Achievement {
         return achievement;
         
     }
+    
 }
 
 // console.log(Achievement.make(1, [0, 1, 2, 3, 4, 5, 6, 7]).level);

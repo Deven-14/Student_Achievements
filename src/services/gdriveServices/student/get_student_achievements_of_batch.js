@@ -23,7 +23,7 @@ export default async function get_student_achievements_of_batch(sheets, student,
             var rows = res.data.valueRanges[i].values;
             if(rows) {
                 for(let row of rows) {
-                    var achievement = Achievement.make(i+1, row);
+                    var achievement = Achievement.make(row, i+1);
                     if(achievement.email == student.email) {
                         achievements.push(achievement);
                     }

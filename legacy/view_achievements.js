@@ -1,4 +1,4 @@
-import get_auth from "./../auth/get_auth.js";
+import get_auth from "../src/services/gdriveServices/auth/get_auth.js";
 
 async function get_batches_within_academic_year(batches, start_academic_year, end_academic_year) {
 

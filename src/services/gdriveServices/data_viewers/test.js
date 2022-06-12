@@ -1,46 +1,49 @@
 import { sheets } from "@googleapis/sheets";
-import view_achievements from "./view_achievements.js";
+import get_achievements_of_academic_years_within_range from "./get_achievements_of_academic_years_within_range.js";
+import dotenv from "dotenv";
+import write_achievements_of_academic_years_to_excel from "./write_achievements_of_academic_years_to_excel.js";
 
-async function view_achievements_test() {
+async function get_achievements_of_academic_years_within_range_test() {
     const batches = [
         {
-          departmentCode: 'A',
           fromYear: 2019,
           toYear: 2023,
-          folderId: '1Cg9XwQKWCYcgXp2IECbH1g_tkUzbHR-7',
-          spreadsheetId: '1Amb85cwTkzIrmCcqNK7uAXGw5G2cG5c2z8w2eVphO4Q',
-          certificatesFolderId: '1ABi61YpC8hBnztNDArBpBpfqAvjDnD86',
         },
         {
-            departmentCode: 'B',
             fromYear: 2018,
             toYear: 2022,
-            folderId: '1_9j2ZZ0sSH22N6Pmu_JI7W0ydeH8hLPk-7',
-            spreadsheetId: '1dXuXYGBOVJaB3MoyF3S5QaNZ5V4t9DpPuZnd41ZZJOc',
-            certificatesFolderId: '1gAtfBla_RiZf8zrEzxJctJCrwl9t51eD',
         }
     ];
 
     const departments = [
         {
-          name: 'Aaa',
-          code: 'A',
-          folderId: '1bphiwJfYFDtHTRErVVKbDTwdaFUpWO1j',
+          name: 'Information Science and Engineering',
+          code: 'IS',
+          folderId: '13kFhxCxIRZHS-IKrHswotLfMqeclQV7O',
         },
         {
-            name: 'Bbbb',
-            code: 'B',
-            folderId: '1YLR_aYfZSyvgzkm1suWHNBh4s0V6d_iN',
+            name: 'Computer Science and Engineering',
+            code: 'CS',
+            folderId: '1tzj5l3LBP7WPlMf6Vw9icsJhaXWp11nr',
         }
     ];
 
-    const res = await view_achievements(sheets, departments, batches, 2018, 2024);
-    console.log(res);
+    const departmentCodes = ['IS', 'CS'];
 
+    const res = await get_achievements_of_academic_years_within_range(sheets, batches, departmentCodes, 2017, 2024);
+    console.log(res);
+    return res;
+}
+
+async function write_achievements_of_academic_years_to_excel_test(filepath, achievements_of_academic_years) {
+    await write_achievements_of_academic_years_to_excel(filepath, achievements_of_academic_years);
 }
 
 async function main() {
-    await view_achievements_test();
+    dotenv.config({ path: "./../../../../.env" });
+    // dotenv.config();
+    const achievements_of_academic_years = await get_achievements_of_academic_years_within_range_test();
+    await write_achievements_of_academic_years_to_excel_test(`${Date.now()}.xlsx`, achievements_of_academic_years);
 }
 
 main();

@@ -120,8 +120,17 @@ async function main()
     // d = await wait2();
     // console.log(d);
 
-    var token = crypto.randomBytes(20).toString('hex');
-    console.log(token);
+    // var token = crypto.randomBytes(20).toString('hex');
+    // console.log(token);
+
+    const abc = {name: "haha"};
+    // for(let ele of abc) { // of doesn't work for objects
+    //     console.log(ele);
+    // }
+    for(let ele in abc) {
+        console.log(ele);
+    }
+    // console.log(abc.id);
 }
 
 main()
