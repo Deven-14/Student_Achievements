@@ -1,4 +1,4 @@
-import get_auth from '../auth/get_auth.js';
+import get_auth from './../auth/get_auth.js';
 import { get_sort_sheet_year_requests } from './get_sort_sheet_requests.js';
 
 async function get_add_achievement_requests(achievement) {

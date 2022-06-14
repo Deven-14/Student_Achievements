@@ -1,7 +1,6 @@
-import get_auth from "./../../auth/get_auth.js";
+import get_auth from "./../auth/get_auth.js";
 import create_folder from './create_folder.js';
 import create_spreadsheet from "./create_spreadsheet.js";
-import fetch from "node-fetch";
 
 async function get_append_sheet1_headers_requests() {
 

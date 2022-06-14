@@ -1,4 +1,4 @@
-import get_auth from '../auth/get_auth.js';
+import get_auth from './../auth/get_auth.js';
 import { get_sort_sheet1_requests } from './get_sort_sheet_requests.js';
 
 async function get_add_student_data_requests(student, sheetId) {

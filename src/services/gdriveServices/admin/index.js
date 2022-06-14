@@ -1,15 +1,7 @@
-import * as achievementServices from "./achievements/index.js";
-import * as createServices from "./create/index.js";
-
-// import {create_batch_for_departments} from "./create/index.js";
-// console.log(create_batch_for_departments);
-
-// console.log({
-//     ...achievementServices,
-//     ...createServices
-// })
+import get_achievements_of_academic_years_within_range from "./get_achievements_of_academic_years_within_range.js";
+import write_achievements_of_academic_years_to_excel from "./write_achievements_of_academic_years_to_excel.js";
 
 export {
-    achievementServices,
-    createServices
+    get_achievements_of_academic_years_within_range,
+    write_achievements_of_academic_years_to_excel
 }

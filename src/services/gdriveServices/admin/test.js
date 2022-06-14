@@ -1,6 +1,6 @@
 import { sheets } from "@googleapis/sheets";
-import get_achievements_of_academic_years_within_range from "./get_achievements_of_academic_years_within_range.js";
 import dotenv from "dotenv";
+import get_achievements_of_academic_years_within_range from "./get_achievements_of_academic_years_within_range.js";
 import write_achievements_of_academic_years_to_excel from "./write_achievements_of_academic_years_to_excel.js";
 
 async function get_achievements_of_academic_years_within_range_test() {
@@ -40,7 +40,7 @@ async function write_achievements_of_academic_years_to_excel_test(filepath, achi
 }
 
 async function main() {
-    dotenv.config({ path: "./../../../../../.env" });
+    dotenv.config({ path: "./../../../../.env" });
     // dotenv.config();
     const achievements_of_academic_years = await get_achievements_of_academic_years_within_range_test();
     await write_achievements_of_academic_years_to_excel_test(`${Date.now()}.xlsx`, achievements_of_academic_years);

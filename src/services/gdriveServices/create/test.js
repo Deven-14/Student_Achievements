@@ -1,9 +1,9 @@
 import { drive } from "@googleapis/drive";
 import { sheets } from "@googleapis/sheets";
-import Department from "./../../../../models/Department.js";
+import dotenv from "dotenv";
+import Department from "./../../../models/Department.js";
 import create_batch_for_departments from "./create_batch_for_departments.js";
 import create_department_folder from "./create_department_folder.js";
-import dotenv from "dotenv";
 
 async function create_batch_for_departments_test(departments, batch) {
     const res = await create_batch_for_departments(sheets, drive, departments, batch);
@@ -17,7 +17,7 @@ async function create_department_folder_test(department) {
 }
 
 async function main() {
-    dotenv.config({ path: "./../../../../../.env" });
+    dotenv.config({ path: "./../../../../.env" });
 
     // const batchName = "batch-2019-2023";
     // const batchName = "batch-2018-2022";
