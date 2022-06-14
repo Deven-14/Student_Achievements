@@ -1,12 +1,12 @@
 import fetch from "node-fetch";
 
-export default async function delete_department_from_query_spreadsheet(departmentCode, departmentBatches) {
+export default async function delete_department_from_query_spreadsheet(departmentCode, DepartmentBatchesOfADepartment) {
     try{
 
         const body = {
             token: process.env.APPS_SCRIPT_TOKEN,
             departmentCode,
-            departmentBatches
+            DepartmentBatchesOfADepartment
         };
 
         const res = await fetch(

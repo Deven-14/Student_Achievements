@@ -4,16 +4,16 @@ import add_department_to_query_spreadsheet from "./add_department_to_query_sprea
 import delete_department_from_query_spreadsheet from "./delete_department_from_query_spreadsheet.js";
 import delete_batch_from_query_spreadsheet from "./delete_batch_from_query_spreadsheet.js";
 
-async function add_batch_to_query_spreadsheet_test(batchName, departmentBatchList) {
-    await add_batch_to_query_spreadsheet(batchName, departmentBatchList);
+async function add_batch_to_query_spreadsheet_test(batchName, DepartmentBatches) {
+    await add_batch_to_query_spreadsheet(batchName, DepartmentBatches);
 }
 
-async function add_department_to_query_spreadsheet_test(departmentCode, departmentBatches) {
-    await add_department_to_query_spreadsheet(departmentCode, departmentBatches);
+async function add_department_to_query_spreadsheet_test(departmentCode, DepartmentBatchesOfADepartment) {
+    await add_department_to_query_spreadsheet(departmentCode, DepartmentBatchesOfADepartment);
 }
 
-async function delete_department_from_query_spreadsheet_test(departmentCode, departmentBatches) {
-    await delete_department_from_query_spreadsheet(departmentCode, departmentBatches);
+async function delete_department_from_query_spreadsheet_test(departmentCode, DepartmentBatchesOfADepartment) {
+    await delete_department_from_query_spreadsheet(departmentCode, DepartmentBatchesOfADepartment);
 }
 
 async function delete_batch_from_query_spreadsheet_test(batchName) {
@@ -24,7 +24,7 @@ async function main() {
     dotenv.config({ path: "./../../../../.env" });
 
     const batchName = "batch-2017-2021";
-    const departmentBatchList = [{
+    const DepartmentBatches = [{
         "departmentCode": "IS",
         "batch": "",
         "folderId": "1QP8W3K8H9C5jzBGQmyVgtQczmjUk3GVJ",
@@ -33,7 +33,7 @@ async function main() {
     }];
 
     const departmentCode = "CS";
-    const departmentBatches = [{
+    const DepartmentBatchesOfADepartment = [{
         "departmentCode": "CS",
         "batch": {
             "fromYear": 2017,
@@ -45,9 +45,9 @@ async function main() {
         "certificatesFolderId": "15q9bcrXe7y-DlPwXMgoz556bV32p-fqf"
     }];
 
-    // await add_batch_to_query_spreadsheet_test(batchName, departmentBatchList);
-    // await add_department_to_query_spreadsheet_test(departmentCode, departmentBatches);
-    // await delete_department_from_query_spreadsheet_test(departmentCode, departmentBatches);
+    // await add_batch_to_query_spreadsheet_test(batchName, DepartmentBatches);
+    // await add_department_to_query_spreadsheet_test(departmentCode, DepartmentBatchesOfADepartment);
+    // await delete_department_from_query_spreadsheet_test(departmentCode, DepartmentBatchesOfADepartment);
     // await delete_batch_from_query_spreadsheet_test(batchName);
 }
 

@@ -1,9 +1,9 @@
-import Batch from "./../../models/Batch.js"
+import Batch from "./../../../models/Batch.js"
 
-export default async function getBatches() {
+export default async function getBatchesWithoutId() {
     try {
         
-        const batches = await Batch.find();
+        const batches = await Batch.find({}, {_id: 0});
         console.log("get batches success");
         return batches;
 
