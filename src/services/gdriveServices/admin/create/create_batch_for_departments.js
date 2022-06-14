@@ -2,7 +2,6 @@ import get_auth from "./../../auth/get_auth.js";
 import create_folder from './create_folder.js';
 import create_spreadsheet from "./create_spreadsheet.js";
 import fetch from "node-fetch";
-import Batch from "./../../../../models/Batch.js";
 
 async function get_append_sheet1_headers_requests() {
 
@@ -120,7 +119,7 @@ async function get_append_year_sheet_headers_requests() {
 
 }
 
-async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
+async function make_achievements_spreadsheet_general_format(gsheets, spreadsheetId) {
 
     var requests = [];
     var requests1 = await get_append_sheet1_headers_requests();
@@ -148,56 +147,23 @@ async function make_batch_spreadsheet_general_format(gsheets, spreadsheetId) {
 
 }
 
-// do not export this function coz, the fetch call cannot be concurrent and hence it is moved to the create_batch_for_departments function
+// do not export this function, coz a batch has to be created for all the departments and not just one and 
+// updating the query sheet also happens after a batch for all departments is created and is updated in the database
 async function create_batch_for_department(gsheets, gdrive, department, batch) {
 
-    const batchName = `batch-${batch.fromYear}-${batch.toYear}`;
-    const batchFolderId = await create_folder(gdrive, department.folderId, batchName);
+    const batchFolderId = await create_folder(gdrive, department.folderId, batch.name);
     const promise1 = create_spreadsheet(gdrive, batchFolderId, "Achievements");
     const promise2 = create_folder(gdrive, batchFolderId, "Certificates");
-    const [spreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
-
-    await make_batch_spreadsheet_general_format(gsheets, spreadsheetId);
+    const [achievementsSpreadsheetId, certificatesFolderId] = await Promise.all([promise1, promise2]);
+    await make_achievements_spreadsheet_general_format(gsheets, achievementsSpreadsheetId);
 
     return {
         departmentCode: department.code, 
-        fromYear: batch.fromYear, 
-        toYear: batch.toYear, 
+        batch: batch._id,
         folderId: batchFolderId, 
-        spreadsheetId, 
+        achievementsSpreadsheetId, 
         certificatesFolderId
     };
-}
-
-// this function cannot be performed concurrently, i.e don't call this function in Promise.all()
-async function add_batch_to_query_spreadsheet(batchName, batchDetails) {
-
-    const batchSpreadsheetIds = [];
-    const departmentCodes = [];
-
-    batchDetails.forEach(ele => {
-        batchSpreadsheetIds.push(ele.spreadsheetId);
-        departmentCodes.push(ele.departmentCode);
-    });
-
-    const body = {
-        token: process.env.APPS_SCRIPT_TOKEN,
-        batchName: batchName,
-        batchSpreadsheetIds: batchSpreadsheetIds,
-        departmentCodes: departmentCodes
-    }
-    try {
-        await fetch(
-            `https://script.google.com/macros/s/${process.env.APPS_SCRIPT_WEB_APP_ID}/exec`, {
-                method: 'post',
-                body: JSON.stringify(body)
-            }
-        );
-    } catch(error) {
-        console.log(error);
-        console.log("Failed to add batch to query spreadsheet");
-        throw error;
-    }
 }
 
 export default async function create_batch_for_departments(sheets, drive, departments, batch) {
@@ -213,12 +179,8 @@ export default async function create_batch_for_departments(sheets, drive, depart
         promises.push(promise);
     }
 
-    const batchDetails = await Promise.all(promises);
-
-    const batchName = `batch-${batch.fromYear}-${batch.toYear}`;
-    await add_batch_to_query_spreadsheet(batchName, batchDetails);
-
-    return batchDetails;
+    const departmentBatchList = await Promise.all(promises);
+    return departmentBatchList;
 
 }
 

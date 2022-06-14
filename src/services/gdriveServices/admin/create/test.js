@@ -27,7 +27,8 @@ async function main() {
     // }
     const batch = {
         fromYear: 2017,
-        toYear: 2021
+        toYear: 2021,
+        name: `batch-2017-2021`
     }
 
     const department1 = new Department();

@@ -3,9 +3,9 @@ import Department from "./../../models/Department.js"
 export default async function getDepartments() {
     try {
         
-        const Departments = await Department.find();
+        const departments = await Department.find();
         console.log("get Departments success");
-        return Departments;
+        return departments;
 
     } catch(error) {
         console.log(error);

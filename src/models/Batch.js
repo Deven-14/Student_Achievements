@@ -1,15 +1,12 @@
 import mongoose from "mongoose"
 const { Schema, model } = mongoose;
 
-const batchSchema = new Schema({
+export const BatchSchema = new Schema({
 
-    departmentCode: { type: String },
-    fromYear: { type: Number, integer: true },
-    toYear: { type: Number, integer: true },
-    folderId: { type: String, unique: true },
-    spreadsheetId: { type: String, unique: true },
-    certificatesFolderId: { type: String, unique: true }
+    fromYear: { type: Number, integer: true, required: true },
+    toYear: { type: Number, integer: true, required: true },
+    name: { type: String, unique: true, required: true}
 
 }); // TODO: add required: true for which have to be there when creating the department
 
-export default model("Batch", batchSchema);
+export default model("Batch", BatchSchema);
