@@ -1,7 +1,7 @@
 import Achievement from "./../../../interfaces/Achievement.js";
 import get_auth from "./../auth/get_auth.js";
 
-export default async function get_student_achievements_of_batch(sheets, student, batchSpreadsheetId) {
+export default async function get_student_achievements_of_departmentBatch(sheets, student, departmentBatch) {
     
     const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
@@ -14,7 +14,7 @@ export default async function get_student_achievements_of_batch(sheets, student,
     try {
 
         const res = await gsheets.spreadsheets.values.batchGet({
-            spreadsheetId: batchSpreadsheetId,
+            spreadsheetId: departmentBatch.achievementsSpreadsheetId,
             ranges,
         });
 

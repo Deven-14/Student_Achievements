@@ -1,11 +1,11 @@
-import add_student_to_batch from "./add_student_to_batch.js";
-import add_achievement_to_batch from "./add_achievement_to_batch.js";
-import get_student_achievements_from_batch from "./get_student_achievements_of_batch.js";
-import is_student_in_batch from "./is_student_in_batch.js";
+import add_student_to_departmentBatch from "./add_student_to_departmentBatch.js";
+import add_achievement_to_departmentBatch from "./add_achievement_to_departmentBatch.js";
+import get_student_achievements_of_departmentBatch from "./get_student_achievements_of_departmentBatch.js";
+import is_student_in_departmentBatch from "./is_student_in_departmentBatch.js";
 
-module.exports = {
-    add_student_to_batch,
-    add_achievement_to_batch,
-    get_student_achievements_from_batch,
-    is_student_in_batch
+export {
+    add_student_to_departmentBatch,
+    add_achievement_to_departmentBatch,
+    get_student_achievements_of_departmentBatch,
+    is_student_in_departmentBatch
 }

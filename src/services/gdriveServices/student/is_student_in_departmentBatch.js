@@ -1,6 +1,6 @@
 import get_auth from "./../auth/get_auth.js";
 
-export default async function is_student_in_batch(sheets, student, batchSpreadsheetId) {
+export default async function is_student_in_departmentBatch(sheets, student, departmentBatch) {
 
     const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
@@ -10,7 +10,7 @@ export default async function is_student_in_batch(sheets, student, batchSpreadsh
     try {
 
         const res = await gsheets.spreadsheets.values.get({
-            spreadsheetId: batchSpreadsheetId,
+            spreadsheetId: departmentBatch.achievementsSpreadsheetId,
             range,
         });
 
@@ -27,7 +27,7 @@ export default async function is_student_in_batch(sheets, student, batchSpreadsh
 
     } catch(error) {
         console.log(error);
-        console.log("Error checking if student", student, "is in batch", batchSpreadsheetId);
+        console.log("Error checking if student", student, "is in Department Batch", departmentBatch.achievementsSpreadsheetId);
         throw error;
     }
     

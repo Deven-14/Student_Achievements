@@ -37,7 +37,7 @@ async function get_add_student_data_requests(student, sheetId) {
     return requests;
 }
 
-export default async function add_student_to_batch(sheets, student, batchSpreadsheetId) {
+export default async function add_student_to_departmentBatch(sheets, student, departmentBatch) {
 
     const sheetId = 0;
 
@@ -54,7 +54,7 @@ export default async function add_student_to_batch(sheets, student, batchSpreads
     try {
 
         await gsheets.spreadsheets.batchUpdate({
-            spreadsheetId : batchSpreadsheetId,
+            spreadsheetId : departmentBatch.achievementsSpreadsheetId,
             resource
         });
 

@@ -46,7 +46,7 @@ async function get_add_achievement_requests(achievement) {
 }
 
 
-export default async function add_achievement_to_batch(sheets, achievement, batchSpreadsheetId) {
+export default async function add_achievement_to_departmentBatch(sheets, achievement, deparmentBatch) {
 
     var requests = [];
     var requests1 = await get_add_achievement_requests(achievement);
@@ -61,7 +61,7 @@ export default async function add_achievement_to_batch(sheets, achievement, batc
     try {
         
         await gsheets.spreadsheets.batchUpdate({
-            spreadsheetId : batchSpreadsheetId,
+            spreadsheetId : deparmentBatch.achievementsSpreadsheetId,
             resource
         });
         console.log("added achievement", achievement);
