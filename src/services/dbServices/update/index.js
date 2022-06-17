@@ -1,9 +1,7 @@
-import addbatchIdToDepartmentDocument from "./addbatchIdToDepartmentDocument.js";
-import addbatchIdsToDepartmentDocument from "./addbatchIdsToDepartmentDocument.js";
-import addbatchIdToAllDepartmentDocuments from "./addbatchIdToAllDepartmentDocuments.js";
+import addDepartmentBatchIdToDepartmentDocument from "./addDepartmentBatchIdToDepartmentDocument.js";
+import addDepartmentBatchIdsToDepartmentDocument from "./addDepartmentBatchIdsToDepartmentDocument.js";
 
 export {
-    addbatchIdToDepartmentDocument,
-    addbatchIdsToDepartmentDocument,
-    addbatchIdToAllDepartmentDocuments
+    addDepartmentBatchIdToDepartmentDocument,
+    addDepartmentBatchIdsToDepartmentDocument
 }

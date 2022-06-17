@@ -1,15 +1,26 @@
-import getBatches from "./getBatches.js";
-import getBatchesWithoutId from "./getBatchesWithoutId.js";
-import getDepartmentBatches from "./getDepartmentBatches.js";
-import getDepartmentBatchesOfADepartment from "./getDepartmentBatchesOfADepartment.js";
-import getDepartmentNameAndCodes from "./getDepartmentNameAndCodes.js";
-import getDepartments from "./getDepartments.js";
+import getBatchDocument from "./getBatchDocument.js";
+import getBatchDocuments from "./getBatchDocuments.js";
+import getAllBatchDocuments from "./getAllBatchDocuments.js";
+import getAllBatchDocumentsWithoutId from "./getAllBatchDocumentsWithoutId.js";
+
+import getDepartmentDocument from "./getDepartmentDocument.js";
+import getAllDepartmentDocuments from "./getAllDepartmentDocuments.js";
+import getAllDepartmentDocumentsWithNameAndCode from "./getAllDepartmentDocumentsWithNameAndCode.js";
+
+import getDepartmentBatchDocuments from "./getDepartmentBatchDocuments.js";
+import getAllDepartmentBatchDocuments from "./getAllDepartmentBatchDocuments.js";
+
 
 export {
-    getBatches,
-    getBatchesWithoutId,
-    getDepartmentBatches,
-    getDepartmentBatchesOfADepartment,
-    getDepartmentNameAndCodes,
-    getDepartments
+    getBatchDocument,
+    getBatchDocuments,
+    getAllBatchDocuments,
+    getAllBatchDocumentsWithoutId,
+
+    getDepartmentDocument,
+    getAllDepartmentDocuments,
+    getAllDepartmentDocumentsWithNameAndCode,
+    
+    getDepartmentBatchDocuments,
+    getAllDepartmentBatchDocuments
 }

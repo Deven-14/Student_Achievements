@@ -1,6 +1,6 @@
 import Department from "./../../../models/Department.js"
 
-export default async function addbatchIdToAllDepartmentDocuments(batchId) {
+export default async function addDepartmentBatchIdToAllDepartmentDocuments(batchId) {
     try {
         
         await Department.updateMany({}, { $addToSet: {batches: batchId} })

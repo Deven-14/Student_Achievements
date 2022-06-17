@@ -1,17 +1,17 @@
 import Batch from "./../../../models/Batch.js"
 
-export default async function createBatchDocument(fromYear) {
+export default async function createBatchDocument(startYear) {
     try {
         
-        const toYear = fromYear + 4;
-        const name = `batch-${fromYear}-${toYear}`;
+        const endYear = startYear + 4;
+        const name = `batch-${startYear}-${endYear}`;
 
-        await Batch.create({fromYear, toYear, name});
-        console.log("added batch", `batch-${fromYear}-${toYear}`, "to database");
+        await Batch.create({startYear, endYear, name});
+        console.log("added batch", `batch-${startYear}-${endYear}`, "to database");
 
     } catch(error) {
         console.log(error);
-        console.log("Error adding batch", `batch-${fromYear}-${toYear}`, "to database");
+        console.log("Error adding batch", `batch-${startYear}-${endYear}`, "to database");
         throw error;
     }
 }
