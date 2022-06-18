@@ -1,9 +1,9 @@
 import DepartmentBatch from "./../../../models/DepartmentBatch.js"
 
-export default async function getDepartmentBatchDocument(departmentBatchId) {
+export default async function getDepartmentBatchDocument(departmentCode, batchId) {
     try {
         
-        const departmentBatch = await DepartmentBatch.find({ _id: departmentBatchId });
+        const departmentBatch = await DepartmentBatch.findOne({ departmentCode: departmentCode, batch: batchId });
         console.log("get DepartmentBatch Document success");
         return departmentBatch;
 

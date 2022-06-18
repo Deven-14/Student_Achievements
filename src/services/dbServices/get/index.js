@@ -9,6 +9,7 @@ import getAllDepartmentDocuments from "./getAllDepartmentDocuments.js";
 import getAllDepartmentDocumentsWithNameAndCode from "./getAllDepartmentDocumentsWithNameAndCode.js";
 
 import getDepartmentBatchDocument from "./getDepartmentBatchDocument.js";
+import getDepartmentBatchDocumentUsingId from "./getDepartmentBatchDocumentUsingId.js";
 import getDepartmentBatchDocumentsOfADepartment from "./getDepartmentBatchDocumentsOfADepartment.js";
 import getAllDepartmentBatchDocuments from "./getAllDepartmentBatchDocuments.js";
 
@@ -25,6 +26,7 @@ export {
     getAllDepartmentDocumentsWithNameAndCode,
     
     getDepartmentBatchDocument,
+    getDepartmentBatchDocumentUsingId,
     getDepartmentBatchDocumentsOfADepartment,
     getAllDepartmentBatchDocuments
 }
