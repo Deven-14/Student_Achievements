@@ -1,5 +1,5 @@
 class Student {
-    constructor({usn, name, email, phone = undefined} = {}) {
+    constructor({usn, name, email, phone} = {}) {
 
         this.usn = usn;
         this.name = name;

@@ -1,12 +1,12 @@
 import fetch from "node-fetch";
 
-export default async function add_department_to_query_spreadsheet(departmentCode, DepartmentBatchesOfADepartment) {
+export default async function add_department_to_query_spreadsheet(departmentCode, departmentBatchesOfADepartment) {
     try{
 
         const body = {
             token: process.env.APPS_SCRIPT_TOKEN,
             departmentCode,
-            DepartmentBatchesOfADepartment
+            departmentBatchesOfADepartment
         };
 
         const res = await fetch(

@@ -42,7 +42,9 @@ async function write_achievements_of_academic_years_to_sheets(workbook, achievem
     await Promise.all(promises);
 }
 
-export default async function write_achievements_of_academic_years_to_excel(filepath, achievements_of_academic_years) {
+// export default async function write_achievements_of_academic_years_to_excel(filepath, achievements_of_academic_years) {
+export default async function writeAchievementsToExcel(filepath, achievements_of_academic_years) {
+
     const workbook = new Workbook();
 
     const promise1 = write_all_achievements_to_sheet1(workbook, achievements_of_academic_years);

@@ -1,12 +1,12 @@
 import fetch from "node-fetch";
 
-export default async function add_batch_to_query_spreadsheet(batchName, DepartmentBatches) {
+export default async function add_batch_to_query_spreadsheet(batchName, departmentBatches) {
     try{
 
         const body = {
             token: process.env.APPS_SCRIPT_TOKEN,
             batchName,
-            DepartmentBatches
+            departmentBatches
         };
 
         const res = await fetch(

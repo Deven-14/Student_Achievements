@@ -16,12 +16,6 @@ async function get_batches_within_years(batches, fromYear, toYear) {
 
 }
 
-async function get_departmentCodes(departments) {
-    const departmentCodes = [];
-    departments.forEach(department => departmentCodes.push(department.code));
-    return departmentCodes;
-}
-
 async function get_batchNames(batches) {
     const batchNames = [];
     for(let batch of batches) {
@@ -128,13 +122,12 @@ async function get_achievements_of_academic_years(achievements_of_batches, depar
     return achievements_of_academic_years;
 }
 
-export default async function get_achievements_of_academic_years_within_range(sheets, batches, departments, fromYear, toYear) {
+export default async function get_achievements_of_academic_years_within_range(sheets, batches, departmentCodes, fromYear, toYear) {
 
     const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
 
     batches = await get_batches_within_years(batches, fromYear, toYear);
-    const departmentCodes = await get_departmentCodes(departments);
 
     const achievements_of_batches = await get_achievements_of_batches(gsheets, batches);
 
