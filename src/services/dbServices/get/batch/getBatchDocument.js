@@ -1,4 +1,4 @@
-import Batch from "./../../../models/Batch.js"
+import Batch from "./../../../../models/Batch.js"
 
 export default async function getBatchDocument(startYear) {
     try {

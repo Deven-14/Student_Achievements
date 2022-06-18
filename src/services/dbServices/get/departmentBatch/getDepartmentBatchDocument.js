@@ -1,4 +1,4 @@
-import DepartmentBatch from "./../../../models/DepartmentBatch.js"
+import DepartmentBatch from "./../../../../models/DepartmentBatch.js"
 
 export default async function getDepartmentBatchDocument(departmentCode, batchId) {
     try {
