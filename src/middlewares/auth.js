@@ -23,7 +23,7 @@ export const adminAuthorization = (req, res, next) => {
     
     try {
 
-        const token = req;
+        const { token } = req;
         const decoded = verify(token, process.env.ADMIN_ACCESS_TOKEN_SECRECT);
         const { admin } = decoded;
         req.admin = admin;

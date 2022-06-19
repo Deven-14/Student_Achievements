@@ -22,7 +22,8 @@ export async function signupValidation(req, res, next) {
 
         const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
         
-        if (isStudentSignedUp(sheets, student, departmentBatchId)) {
+        const isSignedUp = await isStudentSignedUp(sheets, student, departmentBatchId);
+        if (isSignedUp) {
             return res.status(409).json({ error: "Student Already Exists, Please Login" });
         }
         

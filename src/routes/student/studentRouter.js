@@ -12,7 +12,7 @@ studentRouter.use(tokenValidation, studentAuthorization);
 
 studentRouter.post("/addAchievement", addAchievementValidation, addAchievement);
 
-studentRouter.post("/viewAchievements", viewAchievements);
+studentRouter.get("/viewAchievements", viewAchievements);
 
 studentRouter.post("/uploadCertificate", uploadCertificateValidation, uploadCertificate);
 
