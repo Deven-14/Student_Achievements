@@ -1,4 +1,5 @@
-import { sign } from "jsonwebtoken";
+import jsonwebtoken from "jsonwebtoken";
+const { sign } = jsonwebtoken;
 
 export async function generateAccessTokenForStudent(student, departmentBatchId) {
     return sign(

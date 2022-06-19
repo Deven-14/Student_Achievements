@@ -6,6 +6,7 @@ import getStudentDepartmentBatchId from "./getStudentDepartmentBatchId.js";
 import getStudentPresentYear from "./getStudentPresentYear.js";
 import getStudent from "./getStudent.js";
 import uploadAchievementCertificate from "./uploadAchievementCertificate.js";
+export * from "./ValidateUSNAndPhoneNumber.js";
 
 export {
     addStudent,

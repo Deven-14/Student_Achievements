@@ -1,19 +1,16 @@
-import { getBatchesToBeCreated, getDepartmentDocument } from "./../services/index.js";
+import { getBatchesToBeCreated, isDepartmentCreated } from "./../services/index.js";
 
 
 export async function studentAchievementsValidation(req, res, next) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req.body;
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query; // send batchStartYears[] in query 
+
         if(!(batchStartYears && departmentCodes && fromYear && toYear)) {
             return res.status(400).json({ error: "Missing Parameters" });
         }
-        // check if batchStartYears and departmentCodes are array when only one is selected
-        req.batchStartYears = batchStartYears;
-        req.departmentCodes = departmentCodes;
-        req.fromYear = fromYear;
-        req.toYear = toYear;
+
         return next();
 
     } catch (error) {
@@ -22,30 +19,6 @@ export async function studentAchievementsValidation(req, res, next) {
     }
 
 }
-
-
-// use student achievements validation for downloadAchievementsValidation
-// export async function downloadAchievementsValidation(req, res, next) {
-
-//     try {
-
-//         const { batchStartYears, departmentCodes, fromYear, toYear } = req.body;
-//         if(!(batchStartYears && departmentCodes && fromYear && toYear)) {
-//             return res.status(400).json({ error: "Missing Parameters" });
-//         }
-//         // check if batchStartYears and departmentCodes are array when only one is selected
-//         req.batchStartYears = batchStartYears;
-//         req.departmentCodes = departmentCodes;
-//         req.fromYear = fromYear;
-//         req.toYear = toYear;
-//         return next();
-
-//     } catch (error) {
-//         console.log(error);
-//         return res.status(500).json({ error: "Internal Server Error" });
-//     }
-
-// }
 
 
 export async function addBatchValidation(req, res, next) {
@@ -63,7 +36,6 @@ export async function addBatchValidation(req, res, next) {
             return res.status(401).json({ error: "Invalid Batch" });
         }
 
-        req.batchStartYear = batchStartYear;
         return next();
 
     } catch(error) {
@@ -87,13 +59,11 @@ export async function addDepartmentValidation(req, res, next) {
             return res.status(400).json({ error: "Wrong Department Code Length" });
         }
 
-        const department = await getDepartmentDocument(code);
-        if(department) {
+        const isDeptCreated = await isDepartmentCreated(code);
+        if(isDeptCreated) {
             return res.status(409).json({ error: "Department Already Exists" });
         }
 
-        req.name = name;
-        req.code = code;
         return next();
 
     } catch(error) {

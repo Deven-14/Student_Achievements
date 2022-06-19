@@ -1,16 +1,14 @@
-const express = require("express");
-const { register, login, refreshToken } = require("../../controllers/studentAuthController");
-const { signin, signup } = require("../../controllers/studentServiceController");
+import { Router } from "express";
+import { tokenValidation } from "./../../validations/tokenValidation.js";
+import { signupValidation,  signinValidation } from "./../../validations/studentAuthValidation.js";
+import { signup, signin, generateAccessTokenUsingRefreshToken } from "./../../controllers/studentAuthController.js";
 
-const router = express.Router();
+const studentAuthRouter = Router();
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+studentAuthRouter.post("/signup", signupValidation, signup);
 
-router.post("/signup", register, signup);
+studentAuthRouter.post("/signin", signinValidation, signin);
 
-router.post("/signin", login, signin);
+studentAuthRouter.post("/refreshToken", tokenValidation, generateAccessTokenUsingRefreshToken);
 
-router.post("/refreshToken", refreshToken);
-
-module.exports = router;
+export default studentAuthRouter;

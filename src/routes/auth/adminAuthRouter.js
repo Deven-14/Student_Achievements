@@ -1,13 +1,12 @@
-const express = require("express");
-const { verify, refreshToken } = require("../../controllers/adminAuthController");
+import { Router } from "express";
+import { tokenValidation } from "./../../validations/tokenValidation.js";
+import { signinValidation } from "./../../validations/adminAuthValidation.js";
+import { signin, generateAccessTokenUsingRefreshToken } from "./../../controllers/adminAuthController.js";
 
-const router = express.Router();
+const adminAuthRouter = Router();
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+adminAuthRouter.post("/signin", signinValidation, signin);
 
-router.post("/verify", verify);
+adminAuthRouter.post("/refreshToken", tokenValidation, generateAccessTokenUsingRefreshToken);
 
-router.post("/refreshToken", refreshToken);
-
-module.exports = router;
+export default adminAuthRouter;

@@ -1,22 +1,15 @@
-const express = require("express");
-const authRouter = require("./auth");
-const studentRouter = require("./studentRouter");
-const adminRouter = require("./adminRouter");
-const auth = require("../middlewares/auth");
+import { Router } from "express";
+import authRouter from "./auth/index.js";
+import studentRouter from "./student/index.js";
+import adminRouter from "./admin/index.js";
 
-const router = express.Router();
+const resourceRouter = Router();
 
-router.use(express.json());
-router.use(express.urlencoded({ extended: false }));
+resourceRouter.use("/student", studentRouter);
 
-router.use("/auth", authRouter);
+resourceRouter.use("/admin", adminRouter);
 
-router.use("/student", studentRouter);
-
-router.use("/admin", adminRouter);
-
-router.post("/welcome", auth, (req, res) => {
-    return res.status(200).send("Welcome 🙌 ");
-});  
-
-module.exports = router;
+export {
+    authRouter,
+    resourceRouter
+}

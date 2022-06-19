@@ -12,7 +12,7 @@ export async function studentAchievements(req, res) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req;
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query;
         const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
         return res.status(200).json({ achievemnts });
 
@@ -28,7 +28,7 @@ export async function downloadAchievements(req, res) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req;
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query;
         const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
         
         const dateNow = Date.now();
@@ -62,7 +62,7 @@ export async function addBatch(req, res) {
 
     try {
 
-        const { batchStartYear } = req;
+        const { batchStartYear } = req.body;
         await createBatch(sheets, drive, batchStartYear);
         return res.status(201).json({ success: "Batch Created Successfully" });
 
@@ -78,7 +78,7 @@ export async function addDepartment(req, res) {
 
     try {
 
-        const { name, code } = req;
+        const { name, code } = req.body;
         await createDepartment(sheets, drive, name, code);
         return res.status(201).json({ success: "Department Created Successfully" });
 

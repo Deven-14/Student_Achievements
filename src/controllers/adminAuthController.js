@@ -1,5 +1,6 @@
-import { verify } from "jsonwebtoken";
-import { generateAccessTokenForAdmin, generateRefreshTokenForAdmin } from "./../helpers/token.js";
+import jsonwebtoken from "jsonwebtoken";
+const { verify } = jsonwebtoken;
+import { generateAccessTokenForAdmin, generateRefreshTokenForAdmin } from "./../helpers/index.js";
 
 
 export async function signin(req, res) {
@@ -19,12 +20,11 @@ export async function signin(req, res) {
 }
 
 
-export async function getNewAccessTokenUsingRefreshToken(req, res) {
+export async function generateAccessTokenUsingRefreshToken(req, res) {
 
     try {
   
-        const { refreshToken } = req;
-
+        const refreshToken = req.token;
         const decoded = verify(refreshToken, process.env.ADMIN_REFRESH_TOKEN_SECRECT);
         const { admin } = decoded;
         const accessToken = await generateAccessTokenForAdmin(admin);

@@ -1,9 +1,8 @@
 import { sheets } from "@googleapis/sheets";
 import { Student } from "./../interfaces/index.js";
-import { isPhoneNumberValid, isUSNValid } from "./../helpers/ValidateUSNAndPhoneNumber.js";
-import { getStudentDepartmentBatchId, isStudentSignedUp, getStudent } from "./../services/index.js";
+import { getStudentDepartmentBatchId, isStudentSignedUp, getStudent, isPhoneNumberValid, isUSNValid } from "./../services/index.js";
 
-export async function studentSignUpValidation(req, res, next) {
+export async function signupValidation(req, res, next) {
 
     try {
 
@@ -38,7 +37,7 @@ export async function studentSignUpValidation(req, res, next) {
 }
 
 
-export async function studentSignInValidation(req, res, next) {
+export async function signinValidation(req, res, next) {
 
     try {
 
@@ -67,25 +66,4 @@ export async function studentSignInValidation(req, res, next) {
         console.log(error);
         return res.status(500).json({ error: "Internal Server Error" });
     }
-}
-
-
-export async function refreshTokenValidation(req, res, next) {
-
-    try {
-
-        const refreshToken = req.body.refreshToken || req.query.refreshToken;// || req.headers["x-access-token"];
-  
-        if (!refreshToken) {
-            return res.status(400).json({ error: "Access denied, Refresh Token missing!" });
-        }
-        
-        req.refreshToken = refreshToken;
-        return next();
-
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ error: "Internal Server Error" });
-    }
-    
 }

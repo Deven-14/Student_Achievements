@@ -1,7 +1,7 @@
 import fs from "fs";
 import { sheets } from "@googleapis/sheets";
 import { drive } from "@googleapis/drive";
-import { addFileToTempFolder } from "./../helpers/addFileToTempFolder.js";
+import { addFileToTempFolder } from "./../helpers/index.js";
 import { addStudentAchievement, getAchievementsOfAStudent, uploadAchievementCertificate } from "./../services/index.js";
 
 

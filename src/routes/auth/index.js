@@ -1,10 +1,11 @@
-const express = require("express");
-const studentAuthRouter = require("./studentAuthRouter");
-const adminAuthRouter = require("./adminAuthRouter");
-const router = express.Router();
+import { Router } from "express";
+import adminAuthRouter from "./adminAuthRouter.js";
+import studentAuthRouter from "./studentAuthRouter.js";
 
-router.use("/student", studentAuthRouter);
+const authRouter = Router();
 
-router.use("/admin", adminAuthRouter);
+authRouter.use("/student", studentAuthRouter);
 
-module.exports = router;
+authRouter.use("/admin", adminAuthRouter);
+
+export default authRouter;
