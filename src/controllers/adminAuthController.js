@@ -3,7 +3,6 @@ import { generateAccessTokenForAdmin, generateRefreshTokenForAdmin } from "./../
 
 
 export async function signin(req, res) {
-
     try {
 
         const { admin } = req;

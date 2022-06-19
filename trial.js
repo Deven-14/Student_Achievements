@@ -125,7 +125,7 @@ async function main()
     // var token = crypto.randomBytes(20).toString('hex');
     // console.log(token);
 
-    const abc = {name: "haha"};
+    // const abc = {name: "haha"};
     // for(let ele of abc) { // of doesn't work for objects
     //     console.log(ele);
     // }
@@ -133,11 +133,16 @@ async function main()
     //     console.log(ele);
     // }
     // console.log(abc.id);
-    console.log(new Batch({departmentCode: "A", fromYear: "2020", toYear:"2024"}));
+    // console.log(new Batch({departmentCode: "A", fromYear: "2020", toYear:"2024"}));
 
     // in terminal
     // node
     // require('crypto').randomBytes(64).toString('hex')
+
+    const set = new Set();
+    set.add({abc: 1, def: 2}); 
+    console.log(set.has({abc: 1, def: 2})); // false
+    console.log(set.has({abc: 1, def: 3})); // false
 
 }
 

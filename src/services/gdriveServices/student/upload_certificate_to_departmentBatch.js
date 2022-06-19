@@ -52,6 +52,7 @@ export default async function upload_certificate_to_departmentBatch(drive, filep
         });
 
         await give_read_only_permission_to_student(drive, res.data.id, student.email);
+        console.log("Uploaded Certificate to google drive", filepath);
 
         return res.data.webViewLink;
 
