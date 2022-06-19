@@ -2,13 +2,13 @@ import { sheets } from "@googleapis/sheets";
 import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student } from "./../../../interfaces/index.js";
-import getAchievementsOfStudent from "./../getAchievementsOfStudent.js";
+import getAchievementsOfAStudent from "./../getAchievementsOfAStudent.js";
 import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
 async function getAchievementsOfStudentTest(sheets, student) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student);
-    const achievements = await getAchievementsOfStudent(sheets, student, departmentBatchId);
+    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
+    const achievements = await getAchievementsOfAStudent(sheets, student, departmentBatchId);
     console.log(achievements);
     
 }

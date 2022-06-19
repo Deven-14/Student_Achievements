@@ -2,13 +2,13 @@ import { sheets } from "@googleapis/sheets";
 import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student, Achievement } from "./../../../interfaces/index.js";
-import addAchievement from "./../addAchievement.js";
+import addStudentAchievement from "./../addStudentAchievement.js";
 import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
-async function addAchievementTest(sheets, student, achievement) {
+async function addStudentAchievementTest(sheets, student, achievement) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student);
-    await addAchievement(sheets, achievement, departmentBatchId);
+    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
+    await addStudentAchievement(sheets, achievement, departmentBatchId);
     
 }
 
@@ -35,7 +35,7 @@ async function main() {
     const achievement = new Achievement(student, achievementDetails);
     // console.log(achievement);
     
-    await addAchievementTest(sheets, student, achievement);
+    await addStudentAchievementTest(sheets, student, achievement);
 
     console.log("done");
 }

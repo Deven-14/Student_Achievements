@@ -1,11 +1,11 @@
 import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student } from "./../../../interfaces/index.js";
-import getAchievementsOfStudent from "./../getAchievementsOfStudent.js";
+import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
-async function getAchievementsOfStudentTest(sheets, student, departmentBatchId) {
+async function getStudentDepartmentBatchIdTest(student) {
 
-    const departmentBatchId = await getAchievementsOfStudent(sheets, student, departmentBatchId);
+    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
     console.log(departmentBatchId);
 
 }
@@ -20,7 +20,7 @@ async function main() {
         email: "devenparamaj.is19@bmsce.ac.in",
         phone: "1234567890" // imp phone is text
     });
-    await getAchievementsOfStudentTest(student);
+    await getStudentDepartmentBatchIdTest(student);
 
     console.log("done");
 }

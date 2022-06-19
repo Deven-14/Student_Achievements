@@ -7,7 +7,7 @@ import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
 async function addStudentTest(sheets, student) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student);
+    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
     await addStudent(sheets, student, departmentBatchId);
     
 }

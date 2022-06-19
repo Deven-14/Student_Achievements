@@ -99,6 +99,7 @@ async function wait3() {
 }
 
 import crypto from "crypto";
+import nodemon from "nodemon";
 import Batch from "./src/models/Batch.js";
 
 async function main()
@@ -133,6 +134,10 @@ async function main()
     // }
     // console.log(abc.id);
     console.log(new Batch({departmentCode: "A", fromYear: "2020", toYear:"2024"}));
+
+    // in terminal
+    // node
+    // require('crypto').randomBytes(64).toString('hex')
 
 }
 

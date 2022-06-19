@@ -1,18 +1,34 @@
 import { sign } from "jsonwebtoken";
 
-export function generateAccessToken(id, email) {
+export async function generateAccessTokenForStudent(student, departmentBatchId) {
     return sign(
-        { user_id: id, email },
-        process.env.ACCESS_TOKEN_SECRECT,
+        { student, departmentBatchId },
+        process.env.STUDENT_ACCESS_TOKEN_SECRECT,
+        { expiresIn: "30d" }
+    );
+}
+
+export async function generateAccessTokenForAdmin(admin) {
+    return sign(
+        { admin },
+        process.env.ADMIN_ACCESS_TOKEN_SECRECT,
         { expiresIn: "30d" }
     );
 }
 
 
-export function generateRefreshToken(id, email) {
+export async function generateRefreshTokenForStudent(student, departmentBatchId) {
     return sign(
-        { user_id: id, email },
-        process.env.REFRESH_TOKEN_SECRECT,
+        { student, departmentBatchId },
+        process.env.STUDENT_REFRESH_TOKEN_SECRECT,
+        { expiresIn: "60d" }
+    );
+}
+
+export async function generateRefreshTokenForAdmin(admin) {
+    return sign(
+        { admin },
+        process.env.ADMIN_REFRESH_TOKEN_SECRECT,
         { expiresIn: "60d" }
     );
 }

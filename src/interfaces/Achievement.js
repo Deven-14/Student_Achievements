@@ -1,6 +1,6 @@
 class Achievement {
 
-    constructor({usn, name, email} = {}, {nameOfEvent, detailsOfEvent, level, award, certificateUrl, yearOfAchievement} = {}) {
+    constructor({usn, name, email} = {}, {nameOfEvent, detailsOfEvent, level, award, certificateUrl = "None", yearOfAchievement} = {}) {
 
         this.usn = usn;
         this.name = name;

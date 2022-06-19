@@ -1,48 +1,39 @@
-const global_data = require('../auth/global_data');
-const auth = require('../auth/get_auth');
+import fs from "fs";
+import { sheets } from "@googleapis/sheets";
+import { drive } from "@googleapis/drive";
+import { getAchievements, writeAchievementsToExcel, createBatch, createDepartment } from "./../services/index.js";
 
-const Admin = require('../models/Admin');
-const view_achievements = require('../services/data_viewers/view_achievements');
 
-const fs = require('fs');
-const write_to_excel = require('../services/data_viewers/write_to_excel');
-
-const create_batch = require('../services/create/create_batch');
-const get_batches = require("../helpers/get_batches");
-
-exports.studentAchievements = async (req, res) => {
+export async function studentAchievements(req, res) {
 
     try {
 
-        // const { email } = req.user;
+        // check if batchStartYears and departmentCodes are array when only one is selected
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req.body;
+        const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
+        return res.status(200).json({ achievemnts });
 
-        var selected_departments = req.query.selected_departments;
-        if (!Array.isArray(selected_departments)) {
-            selected_departments = [req.query.selected_departments];
-        }
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 
-        var selected_batches = req.query.selected_batches;
-        if (!Array.isArray(selected_batches)) {
-            selected_batches = [req.query.selected_batches];
-        }
+}
 
-        var start_academic_year = parseInt(req.query.from_year);
-        var end_academic_year = parseInt(req.query.to_year);
-        var data = null;
-        var download = false;
 
-        if (selected_departments && selected_batches && start_academic_year && end_academic_year) {
-            data = await view_achievements(auth, selected_departments, selected_batches, start_academic_year, end_academic_year);
-            download = true;
-        }
+export async function downloadAchievements(req, res) {
 
-        // res.render("studentAchievements.ejs", { userData: userData, all_batches: router.all_batches, departments: router.departments, download: download, data: data });
+    try {
+
+        // check if batchStartYears and departmentCodes are array when only one is selected
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req.body;
+        const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
         
-        // res.status(200).json({ download: download, data: data });
-        var filepath = `./temp/${Date.now()}.xlsx`;
+        const dateNow = Date.now();
+        const filepath = `./temp/${dateNow}.xlsx`;
 
-        await write_to_excel(filepath, data);
-        res.status(200).download(filepath, "student_achievements.xlsx", (err) => {
+        await writeAchievementsToExcel(filepath, achievemnts);
+        return res.status(200).download(filepath, `student_achievements_${dateNow}.xlsx`, (err) => {
             if (err) {
                 console.log("file download error");
             } else {
@@ -55,53 +46,42 @@ exports.studentAchievements = async (req, res) => {
 
     } catch (error) {
         console.log(error);
-        // res.render("studentAchievements.ejs", { userData: userData, all_batches: router.all_batches, departments: router.departments, download: false, data: null });
-        res.status(500).json({ download: false, data: null, error: "Internal Server Error" });
-    
+        return res.status(500).json({ error: "Internal Server Error" });
     }
 
 }
 
 
-exports.downloadAchievements = async (req, res) => {
+export async function addBatch(req, res) {
 
-    var data = req.body.data;
-    var filepath = `./temp/${Date.now()}.xlsx`;
+    try {
 
-    await write_to_excel(filepath, data);
-    res.download(filepath, "student_achievements.xlsx", (err) => {
-        if (err) {
-            console.log("file download error");
-        } else {
-            //console.log("downloaded");
-            fs.unlink(filepath, (err) => {
-                //console.log("file deleted");
-            });
-        }
-    });
+        // router.use(isAdminValidation); not required coz we can keep different access_token_secrect for student and admin
+        // already batch exists validation  return res.status(401).json({ error: "Invalid Batch" }); // for validation
+        const { startYear } = req.body;
+        await createBatch(sheets, drive, startYear);
+        return res.status(201).json({ success: "Batch Created Successfully" });
+
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
 
 }
 
 
-exports.createBatch = async (req, res) => {
+export async function addDepartment(req, res) {
 
-    if (req.body.batch_year && req.body.batch_year.localeCompare("NaN") != 0) {
+    try {
 
-        try {
+        // already department exists validation  return res.status(401).json({ error: "Invalid Batch" }); // for validation
+        const { name, code } = req.body;
+        await createDepartment(sheets, drive, name, code);
+        return res.status(201).json({ success: "Department Created Successfully" });
 
-            var batch_year = parseInt(req.body.batch_year);
-            await create_batch(batch_year);
-            var all_batches = await get_batches(auth, global_data.index_table_id);
-            console.log("createBatches : all batches", all_batches);
-            return res.status(200).json({ all_batches });
-
-        } catch (error) {
-            console.log("CONTACT THE DEVELOPER", error);
-            return res.status(500).json({ error: "Internal Server Error" });
-        } 
-
-    } else {
-        return res.status(401).json({ error: "Invalid Batch" });
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server Error" });
     }
-    // res.render('createBatches.ejs', { userData: userData, all_batches: app.locals.all_batches });   
+
 }

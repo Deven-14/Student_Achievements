@@ -1,6 +1,6 @@
 import get_auth from "./../auth/get_auth.js";
 
-export default async function is_student_in_departmentBatch(sheets, student, departmentBatch) {
+export default async function get_student_from_departmentBatch(sheets, usn, email, departmentBatch) {
 
     const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
     const gsheets = sheets({version: 'v4', auth: gauth});
@@ -17,17 +17,22 @@ export default async function is_student_in_departmentBatch(sheets, student, dep
         const rows = res.data.values;
         if(rows) {
             for(let row of rows) {
-                if(row[2] == student.email) {
-                    return true;
+                if(row[0] == usn && row[2] == email) {
+                    return {
+                        usn: row[0],
+                        name: row[1],
+                        email: row[2],
+                        phone: row[3]
+                    };
                 }
             }
         }
 
-        return false;
+        return null;
 
     } catch(error) {
         console.log(error);
-        console.log("Error checking if student", student, "is in Department Batch", departmentBatch.achievementsSpreadsheetId);
+        console.log("Error getting student", usn, email, "from Department Batch", departmentBatch.achievementsSpreadsheetId);
         throw error;
     }
     

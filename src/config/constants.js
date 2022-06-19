@@ -1,4 +1,4 @@
-export const ALL_DEPARTMENTS = ["CE", "ME", "EE", "EC", "IM", "CS", "TE", "IS", "EI", "ML", "BT", "CH", "AS", "AM"];
+export const STUDENT_ACHIEVEMENTS_BATCH_START_YEAR = 2017;
 export const ACHIEVEMENTS_YEAR_SHEET_HEADERS = [
     "USN",
     "Name",
