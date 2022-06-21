@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 import dbConnet from "./src/config/database.js";
 import express from "express";
 import { resourceRouter } from "./src/routes/index.js";
-dotenv.config();
-dbConnet();
 
 const port = process.env.PORT || 4000;
 const app = express();
@@ -29,6 +27,9 @@ app.all("/", (req, res) => {
 
 app.use("/api", resourceRouter);
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Resource Server is working on port ${port}`);
+    // program runs listen first
+    dotenv.config();
+    await dbConnet();
 });

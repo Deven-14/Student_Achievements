@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node index2.js",
-    "dev": "nodemon index2.js -e js,ejs",
+    "dev": "nodemon resourceServer.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -28,6 +28,6 @@
     "messagebird": "^3.7.1",
     "mongoose": "^6.1.5",
     "node-fetch": "^3.2.6",
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.16"
   }
 }

@@ -5,11 +5,19 @@ export async function studentAchievementsValidation(req, res, next) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query; // send batchStartYears[] in query 
+        var { batchStartYears, departmentCodes, fromYear, toYear } = req.query; // send batchStartYears[] in query 
+        batchStartYears = batchStartYears.map(batchStartYear => parseInt(batchStartYear));
+        fromYear = parseInt(fromYear);
+        toYear = parseInt(toYear);
 
         if(!(batchStartYears && departmentCodes && fromYear && toYear)) {
             return res.status(400).json({ error: "Missing Parameters" });
         }
+
+        req.batchStartYears = batchStartYears;
+        req.departmentCodes = departmentCodes;
+        req.fromYear = fromYear;
+        req.toYear = toYear;
 
         return next();
 
@@ -32,8 +40,8 @@ export async function addBatchValidation(req, res, next) {
         }
 
         const batchesToBeCreated = await getBatchesToBeCreated();
-        if(!batchesToBeCreated.find(batch => batch.batchStartYear == batchStartYear)) {
-            return res.status(401).json({ error: "Invalid Batch" });
+        if(!batchesToBeCreated.find(batch => batch.startYear == batchStartYear)) {
+            return res.status(400).json({ error: "Invalid Batch" });
         }
 
         return next();

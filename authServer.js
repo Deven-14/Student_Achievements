@@ -2,8 +2,6 @@ import dotenv from "dotenv";
 import dbConnet from "./src/config/database.js";
 import express from "express";
 import { authRouter } from "./src/routes/index.js";
-dotenv.config();
-dbConnet();
 
 const port = process.env.PORT || 3000;
 const app = express();
@@ -29,7 +27,10 @@ app.all("/", (req, res) => {
 
 app.use("/api/auth", authRouter);
 
-app.listen(port, () => {
+app.listen(port, async () => {
     console.log(`Authorization Server is working on port ${port}`);
+    // program runs listen first
+    dotenv.config();
+    await dbConnet();
 });
 

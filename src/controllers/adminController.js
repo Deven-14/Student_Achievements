@@ -12,7 +12,7 @@ export async function studentAchievements(req, res) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query;
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req;
         const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
         return res.status(200).json({ achievemnts });
 
@@ -28,7 +28,7 @@ export async function downloadAchievements(req, res) {
 
     try {
 
-        const { batchStartYears, departmentCodes, fromYear, toYear } = req.query;
+        const { batchStartYears, departmentCodes, fromYear, toYear } = req;
         const achievemnts = await getAchievements(sheets, batchStartYears, departmentCodes, fromYear, toYear);
         
         const dateNow = Date.now();
@@ -89,7 +89,7 @@ export async function addDepartment(req, res) {
 
 }
 
-export async function batchesToBeCreated() {
+export async function batchesToBeCreated(req, res) {
 
     try {
 
