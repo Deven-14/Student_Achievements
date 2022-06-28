@@ -1,4 +1,4 @@
-import { getDepartmentDocuments, getBatchDocuments } from "./../dbServices/index.js";
+import { getBatchDocuments } from "./../../repositories/index.js";
 import { get_achievements_of_academic_years_within_range } from "./../gdriveServices/index.js";
 
 

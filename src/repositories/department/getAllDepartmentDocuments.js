@@ -1,4 +1,4 @@
-import Department from "./../../../../models/Department.js";
+import Department from "./../../models/Department.js";
 
 export default async function getAllDepartmentDocuments() {
     try {

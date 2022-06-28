@@ -4,7 +4,7 @@ import {
     getAllBatchDocuments, 
     getDepartmentDocument,
     getDepartmentBatchDocumentsOfADepartment
-} from "./../dbServices/index.js";
+} from "./../../repositories/index.js";
 import { 
     create_department_folder, 
     create_batches_for_department, 

@@ -1,6 +1,5 @@
 import dotenv from "dotenv";
-import dbConnect from "./../../../config/database.js";
-import mongoose from "mongoose";
+import dbConnect from "./../../config/database.js";
 import createBatchDocument from "./createBatchDocument.js";
 import createDepartmentDocument from "./createDepartmentDocument.js";
 import createDepartmentBatchDocuments from "./createDepartmentBatchDocuments.js";

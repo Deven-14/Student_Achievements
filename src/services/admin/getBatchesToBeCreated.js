@@ -1,5 +1,5 @@
 import { STUDENT_ACHIEVEMENTS_BATCH_START_YEAR } from "../../config/constants.js";
-import { getAllBatchDocuments } from "./../dbServices/index.js";
+import { getAllBatchDocuments } from "./../../repositories/index.js";
 
 export default async function getBatchesToBeCreated() {
     try {

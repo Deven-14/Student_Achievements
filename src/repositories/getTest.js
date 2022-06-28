@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import dbConnect from "./../../../config/database.js";
+import dbConnect from "./../../config/database.js";
 import getBatches from "./getBatches.js";
 import getDepartments from "./getDepartments.js";
 import getBatchesWithoutId from "./getBatchesWithoutId.js";

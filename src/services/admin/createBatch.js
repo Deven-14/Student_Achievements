@@ -3,7 +3,7 @@ import {
     createDepartmentBatchDocuments, 
     getBatchDocument, 
     getAllDepartmentDocuments
-} from "./../dbServices/index.js";
+} from "./../../repositories/index.js";
 import { create_batch_for_departments, add_batch_to_query_spreadsheet } from "./../gdriveServices/index.js";
 
 

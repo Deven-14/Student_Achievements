@@ -1,4 +1,4 @@
-import { getBatchDocument, getDepartmentBatchDocument } from "./../dbServices/index.js";
+import { getBatchDocument, getDepartmentBatchDocument } from "./../../repositories/index.js";
 
 export default async function getStudentDepartmentBatch(usn) {
     

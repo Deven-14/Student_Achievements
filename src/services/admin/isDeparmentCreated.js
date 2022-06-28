@@ -1,4 +1,4 @@
-import { getDepartmentDocument } from "./../dbServices/index.js";
+import { getDepartmentDocument } from "./../../repositories/index.js";
 
 export default async function isDepartmentCreated(departmentCode) {
 

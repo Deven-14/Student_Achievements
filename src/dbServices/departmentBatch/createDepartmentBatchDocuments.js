@@ -1,5 +1,5 @@
-import DepartmentBatch from "./../../../models/DepartmentBatch.js";
-import Department from "./../../../models/Department.js";
+import DepartmentBatch from "./../../models/DepartmentBatch.js";
+import Department from "./../../models/Department.js";
 
 export default async function createDepartmentBatchDocuments(departmentBatches) {
     try {

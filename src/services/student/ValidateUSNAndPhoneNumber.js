@@ -1,4 +1,4 @@
-import { getDepartmentDocument } from "./../dbServices/index.js";
+import { getDepartmentDocument } from "./../../repositories/index.js";
 import { STUDENT_ACHIEVEMENTS_BATCH_START_YEAR } from "./../../config/constants.js";
 
 export async function isPhoneNumberValid(phoneNumber) {
