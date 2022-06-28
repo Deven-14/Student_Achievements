@@ -1,4 +1,6 @@
 /node_modules
 /.env
 /src/config/service_account_credentials.json
-
+/src/config/achievement_sheets_admin1_credentials.json
+/src/config/achievement_sheets_admin2_credentials.json
+/src/config/achievement_sheets_admin3_credentials.json

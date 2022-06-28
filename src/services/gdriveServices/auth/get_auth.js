@@ -17,9 +17,9 @@
 
 import { auth } from "@googleapis/drive";
 
-export default async function get_auth(scopes) {
+export default async function get_auth(scopes, KEYFILEPATH = process.env.GOOGLE_APPLICATION_CREDENTIALS) {
     
-    const KEYFILEPATH = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+    // const KEYFILEPATH = process.env.GOOGLE_APPLICATION_CREDENTIALS;
     // const KEYFILEPATH = './../../../config/service_account_credentials.json';
 
     const gAuth = new auth.GoogleAuth({

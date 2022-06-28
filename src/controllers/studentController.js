@@ -2,7 +2,8 @@ import fs from "fs";
 import { sheets } from "@googleapis/sheets";
 import { drive } from "@googleapis/drive";
 import { addFileToTempFolder } from "./../helpers/index.js";
-import { addStudentAchievement, getAchievementsOfAStudent, uploadAchievementCertificate } from "./../services/student/index.js";
+import { getAchievementsOfAStudent, uploadAchievementCertificate } from "./../services/student/index.js";
+import { addAchievementProducer } from "./../producers/student/index.js";
 
 
 export async function uploadCertificate(req, res) {
@@ -36,7 +37,7 @@ export async function addAchievement(req, res) {
     try {
 
         const { student, achievement } = req;
-        await addStudentAchievement(sheets, student, achievement);
+        await addAchievementProducer(student, achievement);
         return res.status(201).json({ isAchievementAdded: true });    
 
     } catch (error) {

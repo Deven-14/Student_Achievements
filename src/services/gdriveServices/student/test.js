@@ -13,9 +13,9 @@ async function add_student_to_departmentBatch_test(user, departmentBatch) {
     await add_student_to_departmentBatch(sheets, student, departmentBatch);
 }
 
-async function add_achievement_to_departmentBatch_test(user, achievementDetails, departmentBatch) {
+async function add_achievement_to_departmentBatch_test(user, achievement_sheets_admin_credentials, achievementDetails, departmentBatch) {
     const achievement = new Achievement(user, achievementDetails);
-    await add_achievement_to_departmentBatch(sheets, achievement, departmentBatch);
+    await add_achievement_to_departmentBatch(sheets, achievement_sheets_admin_credentials, achievement, departmentBatch);
 }
 
 async function get_student_achievements_of_departmentBatch_test(user, departmentBatch) {
@@ -106,11 +106,11 @@ async function main() {
     await add_student_to_departmentBatch_test(user2, departmentBatch);
     await add_student_to_departmentBatch_test(user3, departmentBatch);
 
-    await add_achievement_to_departmentBatch_test(user1, achievementDetails1, departmentBatch);
-    await add_achievement_to_departmentBatch_test(user2, achievementDetails2, departmentBatch);
-    await add_achievement_to_departmentBatch_test(user1, achievementDetails2, departmentBatch);
-    await add_achievement_to_departmentBatch_test(user3, achievementDetails1, departmentBatch);
-    await add_achievement_to_departmentBatch_test(user2, achievementDetails3, departmentBatch);
+    await add_achievement_to_departmentBatch_test(user1, process.env.achievement_sheets_admin1_credentials, achievementDetails1, departmentBatch);
+    await add_achievement_to_departmentBatch_test(user2, process.env.achievement_sheets_admin2_credentials, achievementDetails2, departmentBatch);
+    await add_achievement_to_departmentBatch_test(user1, process.env.achievement_sheets_admin3_credentials, achievementDetails2, departmentBatch);
+    await add_achievement_to_departmentBatch_test(user3, process.env.achievement_sheets_admin1_credentials, achievementDetails1, departmentBatch);
+    await add_achievement_to_departmentBatch_test(user2, process.env.achievement_sheets_admin3_credentials, achievementDetails3, departmentBatch);
 
     // await get_student_achievements_of_departmentBatch_test(user, departmentBatch);
     // await is_student_in_departmentBatch_test(user, departmentBatch);

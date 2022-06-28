@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
-import dbConnet from "./src/config/database.js";
+import dbConnet from "./../src/config/database.js";
 import express from "express";
-import { studentRouter } from "./src/routes/index.js";
+import { studentRouter } from "./../src/routes/index.js";
 
 const port = process.env.PORT || 4000;
 const app = express();

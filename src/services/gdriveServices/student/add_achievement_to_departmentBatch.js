@@ -46,7 +46,7 @@ async function get_add_achievement_requests(achievement) {
 }
 
 
-export default async function add_achievement_to_departmentBatch(sheets, achievement, deparmentBatch) {
+export default async function add_achievement_to_departmentBatch(sheets, achievement_sheets_admin_credentials, achievement, deparmentBatch) {
 
     var requests = [];
     var requests1 = await get_add_achievement_requests(achievement);
@@ -55,7 +55,7 @@ export default async function add_achievement_to_departmentBatch(sheets, achieve
 
     const resource = {requests};
 
-    const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"]);
+    const gauth = await get_auth(["https://www.googleapis.com/auth/spreadsheets"], achievement_sheets_admin_credentials);
     const gsheets = sheets({version: 'v4', auth: gauth});
 
     try {

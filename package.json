@@ -14,6 +14,7 @@
   "dependencies": {
     "@googleapis/drive": "^2.3.0",
     "@googleapis/sheets": "^2.0.1",
+    "amqplib": "^0.10.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "bootstrap": "^5.1.3",

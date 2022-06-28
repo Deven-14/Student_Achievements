@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
-import dbConnet from "./src/config/database.js";
+import dbConnet from "./../src/config/database.js";
 import express from "express";
-import { adminRouter } from "./src/routes/index.js";
+import { authRouter } from "./../src/routes/index.js";
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(express.json());
@@ -22,14 +22,15 @@ app.use((req, res, next) => {
 });
 
 app.all("/", (req, res) => {
-    res.send("Working, In Admin Server");
+    res.send("Working, In Authorization Server");
 });
 
-app.use("/api/admin", adminRouter);
+app.use("/api/auth", authRouter);
 
 app.listen(port, async () => {
-    console.log(`Admin Server is working on port ${port}`);
+    console.log(`Authorization Server is working on port ${port}`);
     // program runs listen first
     dotenv.config();
     await dbConnet();
 });
+
