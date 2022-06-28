@@ -3,12 +3,10 @@ import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student, Achievement } from "./../../../interfaces/index.js";
 import addStudentAchievement from "./../addStudentAchievement.js";
-import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
 async function addStudentAchievementTest(sheets, student, achievement) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
-    await addStudentAchievement(sheets, achievement, departmentBatchId);
+    await addStudentAchievement(sheets, student, achievement);
     
 }
 

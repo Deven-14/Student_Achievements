@@ -1,4 +1,3 @@
-import fs from "fs";
 import { Achievement } from "./../interfaces/index.js";
 
 

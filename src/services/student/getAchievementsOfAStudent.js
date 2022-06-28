@@ -1,10 +1,10 @@
-import { getDepartmentBatchDocumentUsingId } from "./../dbServices/index.js";
+import getStudentDepartmentBatch from "./getStudentDepartmentBatch.js";
 import { get_student_achievements_of_departmentBatch } from "./../gdriveServices/index.js";
 
 
-export default async function getAchievementsOfAStudent(sheets, student, departmentBatchId) {
+export default async function getAchievementsOfAStudent(sheets, student) {
 
-    const departmentBatch = await getDepartmentBatchDocumentUsingId(departmentBatchId);
+    const departmentBatch = await getStudentDepartmentBatch(student.usn);
     const achievements = await get_student_achievements_of_departmentBatch(sheets, student, departmentBatch);
     return achievements;
 

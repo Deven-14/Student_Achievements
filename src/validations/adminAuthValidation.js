@@ -1,5 +1,5 @@
 import { Admin } from "./../interfaces/index.js";
-import { isAdmin } from "./../services/index.js";
+import { isAdmin } from "./../services/admin/index.js";
 
 export async function signinValidation(req, res, next) {
 

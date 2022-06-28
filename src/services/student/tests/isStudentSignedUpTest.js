@@ -3,12 +3,10 @@ import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student } from "./../../../interfaces/index.js";
 import isStudentSignedUp from "./../isStudentSignedUp.js";
-import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
 async function isStudentSignedUpTest(sheets, student) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
-    const isSignedUp = await isStudentSignedUp(sheets, student, departmentBatchId);
+    const isSignedUp = await isStudentSignedUp(sheets, student);
     console.log(isSignedUp);
     
 }

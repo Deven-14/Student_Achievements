@@ -8,9 +8,8 @@ export const studentAuthorization = (req, res, next) => {
 
         const { token } = req;
         const decoded = verify(token, process.env.STUDENT_ACCESS_TOKEN_SECRECT);
-        const { student, departmentBatchId } = decoded;
+        const { student } = decoded;
         req.student = student;
-        req.departmentBatchId = departmentBatchId;
         return next();
 
     } catch (err) {

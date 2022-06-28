@@ -5,7 +5,7 @@ import {
     getAchievements, writeAchievementsToExcel, 
     createBatch, createDepartment, 
     getBatchesToBeCreated 
-} from "./../services/index.js";
+} from "./../services/admin/index.js";
 
 
 export async function studentAchievements(req, res) {

@@ -1,6 +1,6 @@
 import { sheets } from "@googleapis/sheets";
 import { Student } from "./../interfaces/index.js";
-import { getStudentDepartmentBatchId, isStudentSignedUp, getStudent, isPhoneNumberValid, isUSNValid } from "./../services/index.js";
+import { isStudentSignedUp, getStudent, isPhoneNumberValid, isUSNValid } from "./../services/student/index.js";
 
 export async function signupValidation(req, res, next) {
 
@@ -19,16 +19,13 @@ export async function signupValidation(req, res, next) {
         if(!isPhoneNumberValid(student.phone)) {
             return res.status(400).json({ error: "Enter a Valid Phone Number" });
         }
-
-        const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
         
-        const isSignedUp = await isStudentSignedUp(sheets, student, departmentBatchId);
+        const isSignedUp = await isStudentSignedUp(sheets, student);
         if (isSignedUp) {
             return res.status(409).json({ error: "Student Already Exists, Please Login" });
         }
         
         req.student = student;
-        req.departmentBatchId = departmentBatchId;
         return next();
 
     } catch (error) {
@@ -51,16 +48,13 @@ export async function signinValidation(req, res, next) {
         if(!isUSNValid(usn)) {
             return res.status(400).json({ error: "Enter a Valid USN" });
         }
-
-        const departmentBatchId = await getStudentDepartmentBatchId(usn);
         
-        const student = await getStudent(sheets, usn, email, departmentBatchId);
+        const student = await getStudent(sheets, usn, email);
         if (!student) {
             return res.status(401).json({ error: "Invalid Credentials" });
         }
         
         req.student = student;
-        req.departmentBatchId = departmentBatchId;
         return next();
 
     } catch (error) {

@@ -2,18 +2,18 @@ import fs from "fs";
 import { sheets } from "@googleapis/sheets";
 import { drive } from "@googleapis/drive";
 import { addFileToTempFolder } from "./../helpers/index.js";
-import { addStudentAchievement, getAchievementsOfAStudent, uploadAchievementCertificate } from "./../services/index.js";
+import { addStudentAchievement, getAchievementsOfAStudent, uploadAchievementCertificate } from "./../services/student/index.js";
 
 
 export async function uploadCertificate(req, res) {
     try {
 
-        const { student, departmentBatchId } = req;
+        const { student } = req;
 
         const file = req.files.certificate;
         const filename = `${Date.now()}.pdf`;
         const filepath = await addFileToTempFolder(file, filename);
-        const certificateUrl = await uploadAchievementCertificate(drive, filepath, student, departmentBatchId);
+        const certificateUrl = await uploadAchievementCertificate(drive, filepath, student);
         fs.unlink(filepath, (error) => {
             if(error) {
                 console.log("Failed to unlink temp certificate file", filepath); // not throwing error;
@@ -35,9 +35,8 @@ export async function addAchievement(req, res) {
 
     try {
 
-        const { departmentBatchId } = req;
-        const achievement = req.achievement;
-        await addStudentAchievement(sheets, achievement, departmentBatchId);
+        const { student, achievement } = req;
+        await addStudentAchievement(sheets, student, achievement);
         return res.status(201).json({ isAchievementAdded: true });    
 
     } catch (error) {
@@ -51,8 +50,8 @@ export async function viewAchievements(req, res) {
 
     try {
 
-        const { student, departmentBatchId } = req;
-        const achievements = await getAchievementsOfAStudent(sheets, student, departmentBatchId);
+        const { student } = req;
+        const achievements = await getAchievementsOfAStudent(sheets, student);
         return res.status(200).json({ achievements });
         
     } catch (error) {

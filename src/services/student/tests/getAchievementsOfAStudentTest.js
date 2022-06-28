@@ -3,12 +3,10 @@ import dotenv from "dotenv";
 import dbConnect from "./../../../config/database.js";
 import { Student } from "./../../../interfaces/index.js";
 import getAchievementsOfAStudent from "./../getAchievementsOfAStudent.js";
-import getStudentDepartmentBatchId from "./../getStudentDepartmentBatchId.js";
 
-async function getAchievementsOfStudentTest(sheets, student) {
+async function getAchievementsOfAStudentTest(sheets, student) {
 
-    const departmentBatchId = await getStudentDepartmentBatchId(student.usn);
-    const achievements = await getAchievementsOfAStudent(sheets, student, departmentBatchId);
+    const achievements = await getAchievementsOfAStudent(sheets, student);
     console.log(achievements);
     
 }
@@ -24,7 +22,7 @@ async function main() {
         phone: "1234567890" // imp phone is text
     });
     
-    await getAchievementsOfStudentTest(sheets, student);
+    await getAchievementsOfAStudentTest(sheets, student);
 
     console.log("done");
 }

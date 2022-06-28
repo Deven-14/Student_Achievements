@@ -1,4 +1,4 @@
-import { getBatchesToBeCreated, isDepartmentCreated } from "./../services/index.js";
+import { getBatchesToBeCreated, isDepartmentCreated } from "./../services/admin/index.js";
 
 
 export async function studentAchievementsValidation(req, res, next) {
@@ -6,13 +6,13 @@ export async function studentAchievementsValidation(req, res, next) {
     try {
 
         var { batchStartYears, departmentCodes, fromYear, toYear } = req.query; // send batchStartYears[] in query 
-        batchStartYears = batchStartYears.map(batchStartYear => parseInt(batchStartYear));
-        fromYear = parseInt(fromYear);
-        toYear = parseInt(toYear);
 
         if(!(batchStartYears && departmentCodes && fromYear && toYear)) {
             return res.status(400).json({ error: "Missing Parameters" });
         }
+        batchStartYears = batchStartYears.map(batchStartYear => parseInt(batchStartYear));
+        fromYear = parseInt(fromYear);
+        toYear = parseInt(toYear);
 
         req.batchStartYears = batchStartYears;
         req.departmentCodes = departmentCodes;
