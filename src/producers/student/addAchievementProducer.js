@@ -1,6 +1,6 @@
 import amqp from "amqplib";
 
-export default async function addAchievementProducer(student, achievement) {
+export default async function addAchievementProducer(achievement) {
     try {
 
         const conn = await amqp.connect(process.env.AMQP_URI);
@@ -9,7 +9,7 @@ export default async function addAchievementProducer(student, achievement) {
         const queue = "achievements";
         await channel.assertQueue(queue, { durable: true });
 
-        const message = JSON.stringify({ student, achievement });
+        const message = JSON.stringify({ achievement });
         channel.publish("", queue, Buffer.from(message), { persistent: true });
         console.log("message published:", achievement);
 

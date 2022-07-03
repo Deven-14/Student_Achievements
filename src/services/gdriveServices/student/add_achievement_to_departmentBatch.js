@@ -4,9 +4,9 @@ import { get_sort_sheet_year_requests } from './get_sort_sheet_requests.js';
 async function get_add_achievement_requests(achievement) {
 
     var data = [
-        achievement.usn,
-        achievement.name,
-        achievement.email,
+        achievement.student.usn,
+        achievement.student.name,
+        achievement.student.email,
         achievement.nameOfEvent,
         achievement.detailsOfEvent,
         achievement.level, // "Level(state/national/international)",

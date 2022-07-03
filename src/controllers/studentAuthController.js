@@ -52,6 +52,7 @@ export async function generateAccessTokenUsingRefreshToken(req, res) {
         const refreshToken = req.token;
         const decoded = verify(refreshToken, process.env.STUDENT_REFRESH_TOKEN_SECRECT);
         const { student } = decoded;
+        console.log("Generating new access token for student", student.email);
         const accessToken = await generateAccessTokenForStudent(student);
         return res.status(200).json({ accessToken });
   

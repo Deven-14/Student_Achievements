@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import 'dotenv/config';
 import dbConnet from "./../src/config/database.js";
 import express from "express";
 import { adminRouter } from "./../src/routes/index.js";
@@ -30,6 +30,5 @@ app.use("/api/admin", adminRouter);
 app.listen(port, async () => {
     console.log(`Admin Server is working on port ${port}`);
     // program runs listen first
-    dotenv.config();
     await dbConnet();
 });

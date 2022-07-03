@@ -14,8 +14,8 @@ async function write_achievements_to_sheet(workbook, sheet_name, achievements) {
         "Level",
         "Award",
         "CertificateUrl",
-        "Department Code",
         "Year Of Achievement",
+        "Department Code",
         "Batch"
     ];
 

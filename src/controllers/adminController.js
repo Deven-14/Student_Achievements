@@ -4,7 +4,7 @@ import { drive } from "@googleapis/drive";
 import { 
     getAchievements, writeAchievementsToExcel, 
     createBatch, createDepartment, 
-    getBatchesToBeCreated 
+    getBatchesToBeCreated, getBatches, getDepartments 
 } from "./../services/admin/index.js";
 
 
@@ -95,6 +95,34 @@ export async function batchesToBeCreated(req, res) {
 
         const batches = await getBatchesToBeCreated();
         return res.status(200).json({ batches });
+
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+}
+
+export async function getCreatedBatches(req, res) {
+
+    try {
+
+        const batches = await getBatches();
+        return res.status(200).json({ batches });
+
+    } catch(error) {
+        console.log(error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+
+}
+
+export async function getCreatedDepartments(req, res) {
+
+    try {
+
+        const departments = await getDepartments();
+        return res.status(200).json({ departments });
 
     } catch(error) {
         console.log(error);

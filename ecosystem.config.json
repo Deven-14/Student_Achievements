@@ -1,0 +1,40 @@
+{
+  "apps": [{
+
+    "script": "./servers/authServer.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }, {
+
+    "script": "./servers/studentServer.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }, {
+
+    "script": "./servers/adminServer.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }, {
+
+    "script": "./consumers/student/addAchievementConsumer1.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }, {
+
+    "script": "./consumers/student/addAchievementConsumer2.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }, {
+
+    "script": "./consumers/student/addAchievementConsumer3.js",
+    "watch": true,
+    "ignore_watch": ["node_modules"]
+
+  }]
+  
+}

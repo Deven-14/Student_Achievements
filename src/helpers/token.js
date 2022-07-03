@@ -5,7 +5,7 @@ export async function generateAccessTokenForStudent(student) {
     return sign(
         { student },
         process.env.STUDENT_ACCESS_TOKEN_SECRECT,
-        { expiresIn: "30d" }
+        { expiresIn: "1m" }
     );
 }
 
@@ -22,7 +22,7 @@ export async function generateRefreshTokenForStudent(student) {
     return sign(
         { student },
         process.env.STUDENT_REFRESH_TOKEN_SECRECT,
-        { expiresIn: "60d" }
+        { expiresIn: "3m" }
     );
 }
 

@@ -1,4 +1,4 @@
-import dotenv from "dotenv";
+import 'dotenv/config';
 import dbConnet from "./../src/config/database.js";
 import express from "express";
 import { studentRouter } from "./../src/routes/index.js";
@@ -30,6 +30,5 @@ app.use("/api/student", studentRouter);
 app.listen(port, async () => {
     console.log(`Student Server is working on port ${port}`);
     // program runs listen first
-    dotenv.config();
     await dbConnet();
 });

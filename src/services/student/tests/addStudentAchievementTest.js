@@ -4,9 +4,9 @@ import dbConnect from "./../../../config/database.js";
 import { Student, Achievement } from "./../../../interfaces/index.js";
 import addStudentAchievement from "./../addStudentAchievement.js";
 
-async function addStudentAchievementTest(sheets, student, achievement) {
+async function addStudentAchievementTest(sheets, achievement_sheets_admin_credentials, achievement) {
 
-    await addStudentAchievement(sheets, student, achievement);
+    await addStudentAchievement(sheets, achievement_sheets_admin_credentials, achievement);
     
 }
 
@@ -33,7 +33,8 @@ async function main() {
     const achievement = new Achievement(student, achievementDetails);
     // console.log(achievement);
     
-    await addStudentAchievementTest(sheets, student, achievement);
+    const achievement_sheets_admin_credentials = process.env.ACHIEVEMENT_SHEETS_ADMIN1_CREDENTIALS;
+    await addStudentAchievementTest(sheets, achievement_sheets_admin_credentials, achievement);
 
     console.log("done");
 }

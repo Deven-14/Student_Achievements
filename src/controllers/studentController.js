@@ -36,8 +36,8 @@ export async function addAchievement(req, res) {
 
     try {
 
-        const { student, achievement } = req;
-        await addAchievementProducer(student, achievement);
+        const { achievement } = req;
+        await addAchievementProducer(achievement);
         return res.status(201).json({ isAchievementAdded: true });    
 
     } catch (error) {

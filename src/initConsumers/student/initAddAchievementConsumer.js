@@ -2,9 +2,9 @@ import amqp from "amqplib";
 import { addStudentAchievement } from "./../../services/student/index.js";
 
 async function process_msg(msg, sheets, achievement_sheets_admin_credentials) {
-    const { student, achievement } = await JSON.parse(msg.content.toString());
+    const { achievement } = await JSON.parse(msg.content.toString());
     console.log(`Received: "${achievement}"`);
-    await addStudentAchievement(sheets, achievement_sheets_admin_credentials, student, achievement);
+    await addStudentAchievement(sheets, achievement_sheets_admin_credentials, achievement);
 }
 
 export default async function initAddAchievementConsumer(sheets, achievement_sheets_admin_credentials) {

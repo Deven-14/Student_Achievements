@@ -2,7 +2,10 @@ import { Router } from "express";
 import { tokenValidation } from "./../../validations/tokenValidation.js";
 import { adminAuthorization } from "./../../middlewares/auth.js";
 import { studentAchievementsValidation, addBatchValidation, addDepartmentValidation } from "./../../validations/adminValidations.js";
-import { studentAchievements, downloadAchievements, addBatch, addDepartment, batchesToBeCreated } from "./../../controllers/adminController.js";
+import { 
+    studentAchievements, downloadAchievements, addBatch, addDepartment, 
+    batchesToBeCreated, getCreatedBatches, getCreatedDepartments 
+} from "./../../controllers/adminController.js";
 
 const adminRouter = Router();
 
@@ -17,5 +20,9 @@ adminRouter.post("/addBatch", addBatchValidation, addBatch);
 adminRouter.post("/addDepartment", addDepartmentValidation, addDepartment);
 
 adminRouter.get("/batchesToBeCreated", batchesToBeCreated);
+
+adminRouter.get("/batches", getCreatedBatches);
+
+adminRouter.get("/departments", getCreatedDepartments);
 
 export default adminRouter;

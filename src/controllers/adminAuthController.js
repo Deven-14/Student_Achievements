@@ -27,6 +27,7 @@ export async function generateAccessTokenUsingRefreshToken(req, res) {
         const refreshToken = req.token;
         const decoded = verify(refreshToken, process.env.ADMIN_REFRESH_TOKEN_SECRECT);
         const { admin } = decoded;
+        console.log("Generating new access token for admin", admin.email);
         const accessToken = await generateAccessTokenForAdmin(admin);
         return res.status(200).json({ accessToken });
   
